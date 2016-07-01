@@ -1,9 +1,9 @@
-<?php namespace exface\Apps\exface\ActionTest;
+<?php namespace exface\ActionTest;
 
 use exface\Core\Interfaces\DataSheets\DataSheetInterface;
 use exface\Core\Exceptions\ActionRuntimeException;
 use exface\Core\DataSorter;
-use exface\Apps\exface\PerformanceMonitor\PerformanceMonitor;
+use exface\PerformanceMonitor\PerformanceMonitor;
 
 class ActionTestApp extends \exface\Core\AbstractApp {
 	

@@ -1,8 +1,8 @@
 <?php
-namespace exface\Apps\exface\ActionTest\Actions;
-use exface\Apps\exface\Core\Actions\ShowDialog;
-use exface\Widgets\Dialog;
-use exface\Widgets\AbstractWidget;
+namespace exface\ActionTest\Actions;
+use exface\Core\Actions\ShowDialog;
+use exface\Core\Widgets\Dialog;
+use exface\Core\Widgets\AbstractWidget;
 /**
  * This action shows a dialog comparing the current test result to the reference one
  * 
@@ -59,7 +59,7 @@ class ShowDiffDialog extends ShowDialog {
 	}
 	
 	protected function create_diff_widget(AbstractWidget $parent, $left_attribute_alias, $rigt_attribute_alias, $caption){
-		/* @var $widget \exface\Widgets\DiffText */
+		/* @var $widget \exface\Core\Widgets\DiffText */
 		$widget = $this->get_called_on_ui_page()->create_widget($this->get_diff_widget_type(), $parent);
 		$widget->set_left_attribute_alias($left_attribute_alias);
 		$widget->set_right_attribute_alias($rigt_attribute_alias);

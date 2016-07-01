@@ -1,4 +1,4 @@
-<?php namespace exface\Apps\exface\ActionTest\Actions;
+<?php namespace exface\ActionTest\Actions;
 
 use exface\Core\UxonObject;
 use exface\Core\Exceptions\exfError;

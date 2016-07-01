@@ -1,6 +1,6 @@
 <?php
-namespace exface\Apps\exface\ActionTest\Actions;
-use exface\Apps\exface\Core\Actions\SetContext;
+namespace exface\ActionTest\Actions;
+use exface\Core\Actions\SetContext;
 /**
  * This action switches on the record mode in the ActionTest context
  * 
