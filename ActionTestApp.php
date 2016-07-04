@@ -2,10 +2,10 @@
 
 use exface\Core\Interfaces\DataSheets\DataSheetInterface;
 use exface\Core\Exceptions\ActionRuntimeException;
-use exface\Core\DataSorter;
+use exface\Core\CommonLogic\DataSheets\DataSorter;
 use exface\PerformanceMonitor\PerformanceMonitor;
 
-class ActionTestApp extends \exface\Core\AbstractApp {
+class ActionTestApp extends \exface\Core\CommonLogic\AbstractApp {
 	
 	/**
 	 * @return PerformanceMonitor

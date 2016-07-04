@@ -1,6 +1,6 @@
 <?php namespace exface\ActionTest\Actions;
 
-use exface\Core\AbstractAction;
+use exface\Core\CommonLogic\AbstractAction;
 
 /**
  * This action accepts the current results of one or more actions as the new correct results

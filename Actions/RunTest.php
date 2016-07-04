@@ -1,10 +1,10 @@
 <?php namespace exface\ActionTest\Actions;
 
-use exface\Core\UxonObject;
+use exface\Core\CommonLogic\UxonObject;
 use exface\Core\Exceptions\exfError;
 use exface\Core\Factories\ActionFactory;
-use exface\Core\NameResolver;
-use exface\Core\AbstractAction;
+use exface\Core\CommonLogic\NameResolver;
+use exface\Core\CommonLogic\AbstractAction;
 use exface\Core\Interfaces\Actions\ActionInterface;
 
 /**
@@ -28,7 +28,7 @@ class RunTest extends AbstractAction {
 		$total_warnings = 0;
 		
 		// Fetch the currently saved test data
-		/* @var $saved_test_data \exface\Core\DataSheet */
+		/* @var $saved_test_data \exface\Core\CommonLogic\DataSheets\DataSheet */
 		$columns = array('MESSAGE_CORRECT', 'OUTPUT_CORRECT', 'RESULT_CORRECT', 'DURATION_CORRECT', 'ACTION_DATA', 'ACTION_ALIAS', 'IGNORE_DIFFS');
 		$saved_test_data = $this->get_app()->get_test_steps_data($this->get_input_data_sheet(), $columns);
 		
