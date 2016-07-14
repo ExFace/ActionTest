@@ -6,7 +6,7 @@ use exface\Core\Widgets\AbstractWidget;
 /**
  * This action shows a dialog comparing the current test result to the reference one
  * 
- * @author aka
+ * @author Andrej Kabachnik
  *
  */
 class ShowDiffDialog extends ShowDialog {
@@ -21,7 +21,7 @@ class ShowDiffDialog extends ShowDialog {
 	
 	protected function perform(){
 		// Fetch the currently saved test data
-		$saved_test_data = $this->exface()->data()->create_data_sheet($this->exface()->model()->get_object('EXFACE.ACTIONTEST.TEST_STEP'));
+		$saved_test_data = $this->get_workbench()->data()->create_data_sheet($this->get_workbench()->model()->get_object('EXFACE.ACTIONTEST.TEST_STEP'));
 		$saved_test_data->add_filter_from_string($saved_test_data->get_meta_object()->get_uid_alias(), $this->get_input_data_sheet()->get_uid_column()->get_values()[0], EXF_COMPARATOR_IN);
 		$saved_test_data->get_columns()->add_from_expression('MESSAGE_CORRECT');
 		$saved_test_data->get_columns()->add_from_expression('MESSAGE_CURRENT');

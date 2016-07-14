@@ -5,7 +5,7 @@ use exface\Core\CommonLogic\AbstractAction;
 /**
  * This action accepts the current results of one or more actions as the new correct results
  * 
- * @author aka
+ * @author Andrej Kabachnik
  *
  */
 class AcceptChanges extends AbstractAction {
@@ -23,7 +23,7 @@ class AcceptChanges extends AbstractAction {
 		$saved_test_data = $this->get_app()->get_test_steps_data($this->get_input_data_sheet(), $columns);
 		
 		// Create a result data sheet
-		$result = $this->exface()->data()->create_data_sheet($saved_test_data->get_meta_object());
+		$result = $this->get_workbench()->data()->create_data_sheet($saved_test_data->get_meta_object());
 		// Run a test for each row of the saved data and save the test result to the result data sheet
 		foreach ($saved_test_data->get_rows() as $row_number => $row_data){
 			// Add the correct values from the saved data to the result data sheet

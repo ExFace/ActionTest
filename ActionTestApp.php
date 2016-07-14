@@ -11,13 +11,13 @@ class ActionTestApp extends \exface\Core\CommonLogic\AbstractApp {
 	 * @return PerformanceMonitor
 	 */
 	public function get_performance_monitor(){
-		if($monitor_app = $this->exface()->get_app('exface.PerformanceMonitor')){
+		if($monitor_app = $this->get_workbench()->get_app('exface.PerformanceMonitor')){
 			return $monitor_app->get_monitor();
 		}
 	}
 	
 	public function start_performance_monitor(){
-		$this->exface()->get_app('exface.PerformanceMonitor');
+		$this->get_workbench()->get_app('exface.PerformanceMonitor');
 	}
 	
 	/**
@@ -46,7 +46,7 @@ class ActionTestApp extends \exface\Core\CommonLogic\AbstractApp {
 	}
 	
 	public function get_test_steps_data(DataSheetInterface $input_data_sheet, array $columns_array){
-		$saved_test_data = $this->exface()->data()->create_data_sheet($this->exface()->model()->get_object('exface.ActionTest.TEST_STEP'));
+		$saved_test_data = $this->get_workbench()->data()->create_data_sheet($this->get_workbench()->model()->get_object('exface.ActionTest.TEST_STEP'));
 		foreach ($columns_array as $column){
 			$saved_test_data->get_columns()->add_from_expression($column);
 		}

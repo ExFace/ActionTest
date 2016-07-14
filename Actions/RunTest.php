@@ -10,7 +10,7 @@ use exface\Core\Interfaces\Actions\ActionInterface;
 /**
  * This action runs one or more selected test steps
  * 
- * @author aka
+ * @author Andrej Kabachnik
  *
  */
 class RunTest extends AbstractAction {
@@ -33,7 +33,7 @@ class RunTest extends AbstractAction {
 		$saved_test_data = $this->get_app()->get_test_steps_data($this->get_input_data_sheet(), $columns);
 		
 		// Create a result data sheet
-		$result = $this->exface()->data()->create_data_sheet($saved_test_data->get_meta_object());
+		$result = $this->get_workbench()->data()->create_data_sheet($saved_test_data->get_meta_object());
 		// Run a test for each row of the saved data and save the test result to the result data sheet
 		foreach ($saved_test_data->get_rows() as $row_number => $row_data){
 			$diffs_in_output = 0;
@@ -44,7 +44,7 @@ class RunTest extends AbstractAction {
 			$error_messages = array();
 			
 			// Instantiate the action and get the current results
-			$action = ActionFactory::create($this->exface()->create_name_resolver($row_data['ACTION_ALIAS'], NameResolver::OBJECT_TYPE_ACTION), null, UxonObject::from_json($row_data['ACTION_DATA']));
+			$action = ActionFactory::create($this->get_workbench()->create_name_resolver($row_data['ACTION_ALIAS'], NameResolver::OBJECT_TYPE_ACTION), null, UxonObject::from_json($row_data['ACTION_DATA']));
 			
 			// Restore the exact environment from the recording
 			$this->prepare_environment($action);
@@ -118,13 +118,13 @@ class RunTest extends AbstractAction {
 	}
 	
 	protected function prepare_environment(ActionInterface $action){
-		$this->called_in_template = $this->exface()->ui()->get_template_from_request()->get_alias_with_namespace();
-		$this->exface()->ui()->set_base_template_alias($action->get_template_alias());
+		$this->called_in_template = $this->get_workbench()->ui()->get_template_from_request()->get_alias_with_namespace();
+		$this->get_workbench()->ui()->set_base_template_alias($action->get_template_alias());
 		// TODO also replace the contexts
 	}
 	
 	protected function revert_environment(){
-		$this->exface()->ui()->set_base_template_alias($this->called_in_template);
+		$this->get_workbench()->ui()->set_base_template_alias($this->called_in_template);
 	}
 }
 ?>

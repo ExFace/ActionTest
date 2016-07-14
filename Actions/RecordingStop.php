@@ -4,7 +4,7 @@ use exface\Core\Actions\SetContext;
 /**
  * This action switches on the record mode in the ActionTest context
  * 
- * @author aka
+ * @author Andrej Kabachnik
  *
  */
 class RecordingStop extends SetContext {
