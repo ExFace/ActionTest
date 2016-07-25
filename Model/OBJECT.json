@@ -109,40 +109,6 @@
     ],
     "rows": [
         {
-            "CREATED_ON": "2016-04-27 13:02:30",
-            "MODIFIED_ON": "0000-00-00 00:00:00",
-            "CREATED_BY_USER": "",
-            "MODIFIED_BY_USER": "",
-            "UID": "0x11e60c674013380589840050568905af",
-            "DATA_SOURCE": "0x32000000000000000000000000000000",
-            "long_description": null,
-            "APP": "0x31350000000000000000000000000000",
-            "SHORT_DESCRIPTION": "",
-            "PARENT_OBJECT": "",
-            "DATA_ADDRESS_PROPS": "{}",
-            "DEFAULT_EDITOR_UXON": "{}",
-            "LABEL": "Test category",
-            "ALIAS": "TEST_CATEGORY",
-            "DATA_ADDRESS": "exf_actest_category"
-        },
-        {
-            "CREATED_ON": "2016-04-27 13:03:30",
-            "MODIFIED_ON": "0000-00-00 00:00:00",
-            "CREATED_BY_USER": "",
-            "MODIFIED_BY_USER": "",
-            "UID": "0x11e60c6763cf03d089840050568905af",
-            "DATA_SOURCE": "0x32000000000000000000000000000000",
-            "long_description": null,
-            "APP": "0x31350000000000000000000000000000",
-            "SHORT_DESCRIPTION": "",
-            "PARENT_OBJECT": "",
-            "DATA_ADDRESS_PROPS": "{}",
-            "DEFAULT_EDITOR_UXON": "{}",
-            "LABEL": "Test case categories",
-            "ALIAS": "TEST_CASE_CATEGORIES",
-            "DATA_ADDRESS": "exf_actest_category_case_map"
-        },
-        {
             "CREATED_ON": "0000-00-00 00:00:00",
             "MODIFIED_ON": "0000-00-00 00:00:00",
             "CREATED_BY_USER": "",
@@ -175,6 +141,40 @@
             "LABEL": "Test step",
             "ALIAS": "TEST_STEP",
             "DATA_ADDRESS": "exf_actest_test_step"
+        },
+        {
+            "CREATED_ON": "2016-04-27 13:02:30",
+            "MODIFIED_ON": "0000-00-00 00:00:00",
+            "CREATED_BY_USER": "",
+            "MODIFIED_BY_USER": "",
+            "UID": "0x11e60c674013380589840050568905af",
+            "DATA_SOURCE": "0x32000000000000000000000000000000",
+            "long_description": null,
+            "APP": "0x31350000000000000000000000000000",
+            "SHORT_DESCRIPTION": "",
+            "PARENT_OBJECT": "",
+            "DATA_ADDRESS_PROPS": "{}",
+            "DEFAULT_EDITOR_UXON": "{}",
+            "LABEL": "Test category",
+            "ALIAS": "TEST_CATEGORY",
+            "DATA_ADDRESS": "exf_actest_category"
+        },
+        {
+            "CREATED_ON": "2016-04-27 13:03:30",
+            "MODIFIED_ON": "0000-00-00 00:00:00",
+            "CREATED_BY_USER": "",
+            "MODIFIED_BY_USER": "",
+            "UID": "0x11e60c6763cf03d089840050568905af",
+            "DATA_SOURCE": "0x32000000000000000000000000000000",
+            "long_description": null,
+            "APP": "0x31350000000000000000000000000000",
+            "SHORT_DESCRIPTION": "",
+            "PARENT_OBJECT": "",
+            "DATA_ADDRESS_PROPS": "{}",
+            "DEFAULT_EDITOR_UXON": "{}",
+            "LABEL": "Test case categories",
+            "ALIAS": "TEST_CASE_CATEGORIES",
+            "DATA_ADDRESS": "exf_actest_category_case_map"
         }
     ],
     "totals_rows": [],
@@ -193,6 +193,10 @@
     "rows_on_page": null,
     "row_offset": 0,
     "sorters": [
+        {
+            "attribute_alias": "CREATED_ON",
+            "direction": "ASC"
+        },
         {
             "attribute_alias": "UID",
             "direction": "ASC"
