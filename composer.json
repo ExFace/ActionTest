@@ -1,19 +1,28 @@
 {
-	"name" : "ExFace/ActionTest",
-	"description" : "Automated testing app for ExFace - the business web application plattform",
-	"type" : "library",
-	"license" : "GPL-3.0+",
-	"authors" : [{
-			"name" : "Andrej Kabachnik",
-			"email" : "kabachnik@gmail.com",
-			"role" : "Creator"
-		}
-	],
-	"support" : {
-		"issues" : "https://github.com/exface/ActionTest/issues"
-	},
-	"require" : {
-		"exface/core" : "~0.1",
-		"gajus/dindent" : "2.*"
-	}
+    "name": "ExFace/ActionTest",
+    "description": "Automated testing app for ExFace - the business web application plattform",
+    "type": "library",
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Andrej Kabachnik",
+            "email": "kabachnik@gmail.com",
+            "role": "Creator"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/exface/ActionTest/issues"
+    },
+    "require": {
+        "exface/core": "~0.1",
+        "gajus/dindent": "2.*"
+    },
+    "extra": {
+        "app": {
+            "app_uid": "0x31350000000000000000000000000000",
+            "app_alias": "exface.ActionTest",
+            "model_md5": "7a34ee6cde1d8a1290ba9b5b052a8d6f",
+            "model_timestamp": "2016-06-10 09:01:47"
+        }
+    }
 }
