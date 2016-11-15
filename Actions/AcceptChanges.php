@@ -1,6 +1,7 @@
 <?php namespace exface\ActionTest\Actions;
 
 use exface\Core\CommonLogic\AbstractAction;
+use exface\Core\Interfaces\Actions\iModifyData;
 
 /**
  * This action accepts the current results of one or more actions as the new correct results
@@ -8,7 +9,7 @@ use exface\Core\CommonLogic\AbstractAction;
  * @author Andrej Kabachnik
  *
  */
-class AcceptChanges extends AbstractAction {
+class AcceptChanges extends AbstractAction implements iModifyData {
 	
 	protected function init(){
 		$this->set_icon_name('ok');

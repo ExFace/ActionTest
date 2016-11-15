@@ -3,6 +3,7 @@ namespace exface\ActionTest\Actions;
 use exface\Core\Actions\ShowDialog;
 use exface\Core\Widgets\Dialog;
 use exface\Core\Widgets\AbstractWidget;
+use exface\Core\Factories\WidgetFactory;
 /**
  * This action shows a dialog comparing the current test result to the reference one
  * 
@@ -40,12 +41,23 @@ class ShowDiffDialog extends ShowDialog {
 	
 	protected function enhance_dialog_widget(Dialog $dialog){
 		$dialog = parent::enhance_dialog_widget($dialog);
+		
+		// Create tabs for different things to compare
 		$tabs = $this->get_called_on_ui_page()->create_widget('Tabs', $dialog);
 		$tabs->add_tab($this->create_diff_widget($dialog, 'OUTPUT_CORRECT', 'OUTPUT_CURRENT', 'Output'));
 		$tabs->add_tab($this->create_diff_widget($dialog, 'RESULT_CORRECT', 'RESULT_CURRENT', 'Result'));
 		$tabs->add_tab($this->create_diff_widget($dialog, 'MESSAGE_CORRECT', 'MESSAGE_CURRENT', 'Message'));
 		$tabs->add_tab($this->create_diff_widget($dialog, 'ACTION_DATA', 'ACTION_DATA', 'Action data'));
 		$dialog->add_widget($tabs);
+		
+		// Add the accept button
+		/* @var $button \exface\Core\Widgets\DialogButton */
+		$button = $this->get_called_on_ui_page()->create_widget('DialogButton', $dialog);
+		$button->set_caption('Accept changes');
+		$button->set_action_alias('exface.ActionTest.AcceptChanges');
+		$button->set_close_dialog_after_action_succeeds(true);
+		$dialog->add_button($button);
+		
 		return $dialog;
 	}
 	
