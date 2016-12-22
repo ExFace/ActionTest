@@ -1,11 +1,11 @@
 <?php namespace exface\ActionTest\Actions;
 
 use exface\Core\CommonLogic\UxonObject;
-use exface\Core\Exceptions\exfError;
 use exface\Core\Factories\ActionFactory;
 use exface\Core\CommonLogic\NameResolver;
 use exface\Core\CommonLogic\AbstractAction;
 use exface\Core\Interfaces\Actions\ActionInterface;
+use exface\Core\Interfaces\Exceptions\ErrorExceptionInterface;
 
 /**
  * This action runs one or more selected test steps
@@ -54,7 +54,7 @@ class RunTest extends AbstractAction {
 				$new_message = $action->get_result_message();
 				$new_output = $this->get_app()->prettify($action->get_result_output());
 				$new_result_string = $action->get_result_stringified();
-			} catch (exfError $e) {
+			} catch (ErrorExceptionInterface $e) {
 				$errors++;
 				$error_messages[] = $e->getMessage();
 			}

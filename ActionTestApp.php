@@ -1,9 +1,9 @@
 <?php namespace exface\ActionTest;
 
 use exface\Core\Interfaces\DataSheets\DataSheetInterface;
-use exface\Core\Exceptions\ActionRuntimeException;
 use exface\Core\CommonLogic\DataSheets\DataSorter;
 use exface\PerformanceMonitor\PerformanceMonitor;
+use exface\Core\Exceptions\Actions\ActionInputInvalidObjectError;
 
 class ActionTestApp extends \exface\Core\CommonLogic\AbstractApp {
 	
@@ -51,14 +51,14 @@ class ActionTestApp extends \exface\Core\CommonLogic\AbstractApp {
 			$saved_test_data->get_columns()->add_from_expression($column);
 		}
 		
-		if (strcasecmp($input_data_sheet->get_meta_object()->get_alias_with_namespace(), 'exface.ActionTest.TEST_CASE') === 0){
+		if ($input_data_sheet->get_meta_object()->is('exface.ActionTest.TEST_CASE')){
 			$saved_test_data->add_filter_from_string('TEST_CASE', implode(',', $input_data_sheet->get_uid_column()->get_values()), EXF_COMPARATOR_IN);
 			$saved_test_data->get_sorters()->add_from_string($input_data_sheet->get_meta_object()->get_alias(), DataSorter::DIRECTION_ASC);
 			$saved_test_data->get_sorters()->add_from_string('SEQUENCE', DataSorter::DIRECTION_ASC);
-		} elseif ($input_data_sheet->get_meta_object()->get_id() == $saved_test_data->get_meta_object()->get_id()) {
+		} elseif ($input_data_sheet->get_meta_object()->is($saved_test_data->get_meta_object())) {
 			$saved_test_data->add_filter_from_string($saved_test_data->get_meta_object()->get_uid_alias(), implode(',', $input_data_sheet->get_uid_column()->get_values()), EXF_COMPARATOR_IN);
 		} else {
-			throw new ActionRuntimeException('Running tests is currently only support for explicitly specified test steps or test cases - "' . $input_data_sheet->get_meta_object()->get_alias_with_namespace() . '" given!');
+			throw new ActionInputInvalidObjectError($this, 'Running tests is currently only support for explicitly specified test steps or test cases - "' . $input_data_sheet->get_meta_object()->get_alias_with_namespace() . '" given!', '6T5DMUS');
 		}
 		
 		$saved_test_data->data_read();
