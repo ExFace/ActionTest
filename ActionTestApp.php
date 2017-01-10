@@ -52,11 +52,11 @@ class ActionTestApp extends \exface\Core\CommonLogic\AbstractApp {
 		}
 		
 		if ($input_data_sheet->get_meta_object()->is('exface.ActionTest.TEST_CASE')){
-			$saved_test_data->add_filter_from_string('TEST_CASE', implode(',', $input_data_sheet->get_uid_column()->get_values()), EXF_COMPARATOR_IN);
+			$saved_test_data->add_filter_from_string('TEST_CASE', implode(EXF_LIST_SEPARATOR, $input_data_sheet->get_uid_column()->get_values()), EXF_COMPARATOR_IN);
 			$saved_test_data->get_sorters()->add_from_string($input_data_sheet->get_meta_object()->get_alias(), DataSorter::DIRECTION_ASC);
 			$saved_test_data->get_sorters()->add_from_string('SEQUENCE', DataSorter::DIRECTION_ASC);
 		} elseif ($input_data_sheet->get_meta_object()->is($saved_test_data->get_meta_object())) {
-			$saved_test_data->add_filter_from_string($saved_test_data->get_meta_object()->get_uid_alias(), implode(',', $input_data_sheet->get_uid_column()->get_values()), EXF_COMPARATOR_IN);
+			$saved_test_data->add_filter_from_string($saved_test_data->get_meta_object()->get_uid_alias(), implode(EXF_LIST_SEPARATOR, $input_data_sheet->get_uid_column()->get_values()), EXF_COMPARATOR_IN);
 		} else {
 			throw new ActionInputInvalidObjectError($this, 'Running tests is currently only support for explicitly specified test steps or test cases - "' . $input_data_sheet->get_meta_object()->get_alias_with_namespace() . '" given!', '6T5DMUS');
 		}
