@@ -1,5 +1,5 @@
 {
-    "name": "ExFace/ActionTest",
+    "name": "exface/ActionTest",
     "description": "Automated testing app for ExFace - the business web application plattform",
     "type": "library",
     "license": "GPL-3.0+",
