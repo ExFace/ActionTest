@@ -109,8 +109,8 @@
     ],
     "rows": [
         {
-            "CREATED_ON": "0000-00-00 00:00:00",
-            "MODIFIED_ON": "0000-00-00 00:00:00",
+            "CREATED_ON": "2011-01-01 00:00:00",
+            "MODIFIED_ON": "2011-01-01 00:00:00",
             "CREATED_BY_USER": "",
             "MODIFIED_BY_USER": "",
             "UID": "0x31313600000000000000000000000000",
@@ -126,8 +126,8 @@
             "DATA_ADDRESS": "exf_actest_test_case"
         },
         {
-            "CREATED_ON": "0000-00-00 00:00:00",
-            "MODIFIED_ON": "0000-00-00 00:00:00",
+            "CREATED_ON": "2011-01-01 00:00:00",
+            "MODIFIED_ON": "2011-01-01 00:00:00",
             "CREATED_BY_USER": "",
             "MODIFIED_BY_USER": "",
             "UID": "0x31313700000000000000000000000000",
@@ -144,7 +144,7 @@
         },
         {
             "CREATED_ON": "2016-04-27 13:02:30",
-            "MODIFIED_ON": "0000-00-00 00:00:00",
+            "MODIFIED_ON": "2011-01-01 00:00:00",
             "CREATED_BY_USER": "",
             "MODIFIED_BY_USER": "",
             "UID": "0x11e60c674013380589840050568905af",
@@ -161,7 +161,7 @@
         },
         {
             "CREATED_ON": "2016-04-27 13:03:30",
-            "MODIFIED_ON": "0000-00-00 00:00:00",
+            "MODIFIED_ON": "2011-01-01 00:00:00",
             "CREATED_BY_USER": "",
             "MODIFIED_BY_USER": "",
             "UID": "0x11e60c6763cf03d089840050568905af",
