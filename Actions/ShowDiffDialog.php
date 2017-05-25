@@ -1,83 +1,92 @@
 <?php
 namespace exface\ActionTest\Actions;
+
 use exface\Core\Actions\ShowDialog;
 use exface\Core\Widgets\Dialog;
 use exface\Core\Widgets\AbstractWidget;
 use exface\Core\Factories\WidgetFactory;
+
 /**
  * This action shows a dialog comparing the current test result to the reference one
- * 
- * @author Andrej Kabachnik
  *
+ * @author Andrej Kabachnik
+ *        
  */
-class ShowDiffDialog extends ShowDialog {
-	private $diff_widget_type = 'DiffText';
-	
-	protected function init(){
-		$this->set_icon_name('compare');
-		$this->set_input_rows_min(1);
-		$this->set_input_rows_max(1);
-		$this->set_prefill_with_filter_context(false);
-	}	
-	
-	protected function perform(){
-		// Fetch the currently saved test data
-		$saved_test_data = $this->get_workbench()->data()->create_data_sheet($this->get_workbench()->model()->get_object('EXFACE.ACTIONTEST.TEST_STEP'));
-		$saved_test_data->add_filter_from_string($saved_test_data->get_meta_object()->get_uid_alias(), $this->get_input_data_sheet()->get_uid_column()->get_values()[0], EXF_COMPARATOR_IN);
-		$saved_test_data->get_columns()->add_from_expression('MESSAGE_CORRECT');
-		$saved_test_data->get_columns()->add_from_expression('MESSAGE_CURRENT');
-		$saved_test_data->get_columns()->add_from_expression('OUTPUT_CORRECT');
-		$saved_test_data->get_columns()->add_from_expression('OUTPUT_CURRENT');
-		$saved_test_data->get_columns()->add_from_expression('RESULT_CORRECT');
-		$saved_test_data->get_columns()->add_from_expression('RESULT_CURRENT');
-		$saved_test_data->get_columns()->add_from_expression('ACTION_DATA');
-		$saved_test_data->get_columns()->add_from_expression('ACTION_ALIAS');
-		$saved_test_data->data_read();
-		
-		$this->get_dialog_widget()->prefill($saved_test_data);
-		
-		return parent::perform();
-	}
-	
-	protected function enhance_dialog_widget(Dialog $dialog){
-		$dialog = parent::enhance_dialog_widget($dialog);
-		
-		// Create tabs for different things to compare
-		$tabs = $this->get_called_on_ui_page()->create_widget('Tabs', $dialog);
-		$tabs->add_tab($this->create_diff_widget($dialog, 'OUTPUT_CORRECT', 'OUTPUT_CURRENT', 'Output'));
-		$tabs->add_tab($this->create_diff_widget($dialog, 'RESULT_CORRECT', 'RESULT_CURRENT', 'Result'));
-		$tabs->add_tab($this->create_diff_widget($dialog, 'MESSAGE_CORRECT', 'MESSAGE_CURRENT', 'Message'));
-		$tabs->add_tab($this->create_diff_widget($dialog, 'ACTION_DATA', 'ACTION_DATA', 'Action data'));
-		$dialog->add_widget($tabs);
-		
-		// Add the accept button
-		/* @var $button \exface\Core\Widgets\DialogButton */
-		$button = $this->get_called_on_ui_page()->create_widget('DialogButton', $dialog);
-		$button->set_caption('Accept changes');
-		$button->set_action_alias('exface.ActionTest.AcceptChanges');
-		$button->set_close_dialog_after_action_succeeds(true);
-		$dialog->add_button($button);
-		
-		return $dialog;
-	}
-	
-	public function get_diff_widget_type() {
-		return $this->diff_widget_type;
-	}
-	
-	public function set_diff_widget_type($value) {
-		$this->diff_widget_type = $value;
-		return $this;
-	}
-	
-	protected function create_diff_widget(AbstractWidget $parent, $left_attribute_alias, $rigt_attribute_alias, $caption){
-		/* @var $widget \exface\Core\Widgets\DiffText */
-		$widget = $this->get_called_on_ui_page()->create_widget($this->get_diff_widget_type(), $parent);
-		$widget->set_left_attribute_alias($left_attribute_alias);
-		$widget->set_right_attribute_alias($rigt_attribute_alias);
-		$widget->set_caption($caption);
-		return $widget;
-	}
-	  
+class ShowDiffDialog extends ShowDialog
+{
+
+    private $diff_widget_type = 'DiffText';
+
+    protected function init()
+    {
+        $this->setIconName('compare');
+        $this->setInputRowsMin(1);
+        $this->setInputRowsMax(1);
+        $this->setPrefillWithFilterContext(false);
+    }
+
+    protected function perform()
+    {
+        // Fetch the currently saved test data
+        $saved_test_data = $this->getWorkbench()->data()->createDataSheet($this->getWorkbench()->model()->getObject('EXFACE.ACTIONTEST.TEST_STEP'));
+        $saved_test_data->addFilterFromString($saved_test_data->getMetaObject()->getUidAlias(), $this->getInputDataSheet()->getUidColumn()->getValues()[0], EXF_COMPARATOR_IN);
+        $saved_test_data->getColumns()->addFromExpression('MESSAGE_CORRECT');
+        $saved_test_data->getColumns()->addFromExpression('MESSAGE_CURRENT');
+        $saved_test_data->getColumns()->addFromExpression('OUTPUT_CORRECT');
+        $saved_test_data->getColumns()->addFromExpression('OUTPUT_CURRENT');
+        $saved_test_data->getColumns()->addFromExpression('RESULT_CORRECT');
+        $saved_test_data->getColumns()->addFromExpression('RESULT_CURRENT');
+        $saved_test_data->getColumns()->addFromExpression('ACTION_DATA');
+        $saved_test_data->getColumns()->addFromExpression('ACTION_ALIAS');
+        $saved_test_data->dataRead();
+        
+        $this->getDialogWidget()->prefill($saved_test_data);
+        
+        return parent::perform();
+    }
+
+    protected function enhanceDialogWidget(Dialog $dialog)
+    {
+        $dialog = parent::enhanceDialogWidget($dialog);
+        
+        // Create tabs for different things to compare
+        $tabs = $this->getCalledOnUiPage()->createWidget('Tabs', $dialog);
+        $tabs->addTab($this->createDiffWidget($dialog, 'OUTPUT_CORRECT', 'OUTPUT_CURRENT', 'Output'));
+        $tabs->addTab($this->createDiffWidget($dialog, 'RESULT_CORRECT', 'RESULT_CURRENT', 'Result'));
+        $tabs->addTab($this->createDiffWidget($dialog, 'MESSAGE_CORRECT', 'MESSAGE_CURRENT', 'Message'));
+        $tabs->addTab($this->createDiffWidget($dialog, 'ACTION_DATA', 'ACTION_DATA', 'Action data'));
+        $dialog->addWidget($tabs);
+        
+        // Add the accept button
+        /* @var $button \exface\Core\Widgets\DialogButton */
+        $button = $this->getCalledOnUiPage()->createWidget('DialogButton', $dialog);
+        $button->setCaption('Accept changes');
+        $button->setActionAlias('exface.ActionTest.AcceptChanges');
+        $button->setCloseDialogAfterActionSucceeds(true);
+        $dialog->addButton($button);
+        
+        return $dialog;
+    }
+
+    public function getDiffWidgetType()
+    {
+        return $this->diff_widget_type;
+    }
+
+    public function setDiffWidgetType($value)
+    {
+        $this->diff_widget_type = $value;
+        return $this;
+    }
+
+    protected function createDiffWidget(AbstractWidget $parent, $left_attribute_alias, $rigt_attribute_alias, $caption)
+    {
+        /* @var $widget \exface\Core\Widgets\DiffText */
+        $widget = $this->getCalledOnUiPage()->createWidget($this->getDiffWidgetType(), $parent);
+        $widget->setLeftAttributeAlias($left_attribute_alias);
+        $widget->setRightAttributeAlias($rigt_attribute_alias);
+        $widget->setCaption($caption);
+        return $widget;
+    }
 }
 ?>

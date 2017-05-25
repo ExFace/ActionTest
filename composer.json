@@ -15,7 +15,7 @@
     },
     "require": {
         "exface/core": "~0.1",
-        "gajus/dindent": "2.*"
+        "gajus/dindent": "^2.0"
     },
     "extra": {
         "app": {
