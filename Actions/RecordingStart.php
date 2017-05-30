@@ -23,6 +23,7 @@ class RecordingStart extends SetContext
 
     protected function perform()
     {
+        $this->setResult('');
         if ($this->getContext()->isRecording()) {
             $this->setResultMessage('Already recording anyway!');
         } else {

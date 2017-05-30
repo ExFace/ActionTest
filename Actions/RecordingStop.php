@@ -21,6 +21,7 @@ class RecordingStop extends SetContext
 
     protected function perform()
     {
+        $this->setResult('');
         if ($this->getContext()->isRecording()) {
             $this->getContext()->recordingStop();
             $this->getContext()->setSkipNextActions($this->getContext()->getSkipNextActions() + 1);
