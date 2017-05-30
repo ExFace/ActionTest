@@ -51,7 +51,7 @@ class ActionTestApp extends \exface\Core\CommonLogic\AbstractApp
      */
     public function prettifyHtml($string)
     {
-        $indenter = new \gajus\dindent\Indenter(array(
+        $indenter = new \Gajus\Dindent\Indenter(array(
             'indentation_character' => '  '
         ));
         return $indenter->indent($string);
