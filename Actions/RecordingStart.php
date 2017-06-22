@@ -42,7 +42,7 @@ class RecordingStart extends SetContext
     public function setSkipPageIds($value)
     {
         if ($value) {
-            $this->skip_page_ids = explode(EXF_LIST_SEPARATOR, $value);
+            $this->skip_page_ids = explode(',', $value);
         }
         return $this;
     }
