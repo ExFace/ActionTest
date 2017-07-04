@@ -15,7 +15,7 @@ class RecordingStop extends SetContext
     protected function init()
     {
         $this->setIconName('stop');
-        $this->setScope('window');
+        $this->setContextScope('window');
         $this->setContextType('ActionTest');
     }
 

@@ -17,7 +17,7 @@ class RecordingStart extends SetContext
     protected function init()
     {
         $this->setIconName('record');
-        $this->setScope('window');
+        $this->setContextScope('window');
         $this->setContextType('ActionTest');
     }
 
