@@ -1,7 +1,8 @@
 <?php
 namespace exface\ActionTest\Actions;
 
-use exface\Core\Actions\SetContext;
+use exface\Core\CommonLogic\AbstractAction;
+use exface\Core\CommonLogic\Contexts\ContextActionTrait;
 
 /**
  * This action switches on the record mode in the ActionTest context
@@ -9,16 +10,17 @@ use exface\Core\Actions\SetContext;
  * @author Andrej Kabachnik
  *        
  */
-class RecordingStart extends SetContext
+class RecordingStart extends AbstractAction
 {
-
+    use ContextActionTrait;
+    
     private $skip_page_ids = array();
 
     protected function init()
     {
         $this->setIconName('record');
         $this->setContextScope('window');
-        $this->setContextType('ActionTest');
+        $this->setContextAlias('ActionTest');
     }
 
     protected function perform()

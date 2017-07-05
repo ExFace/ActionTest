@@ -1,7 +1,8 @@
 <?php
 namespace exface\ActionTest\Actions;
 
-use exface\Core\Actions\SetContext;
+use exface\Core\CommonLogic\AbstractAction;
+use exface\Core\CommonLogic\Contexts\ContextActionTrait;
 
 /**
  * This action switches on the record mode in the ActionTest context
@@ -9,14 +10,15 @@ use exface\Core\Actions\SetContext;
  * @author Andrej Kabachnik
  *        
  */
-class RecordingStop extends SetContext
+class RecordingStop extends AbstractAction
 {
+    use ContextActionTrait;
 
     protected function init()
     {
         $this->setIconName('stop');
         $this->setContextScope('window');
-        $this->setContextType('ActionTest');
+        $this->setContextAlias('ActionTest');
     }
 
     protected function perform()
