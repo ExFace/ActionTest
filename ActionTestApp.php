@@ -5,6 +5,7 @@ use exface\Core\Interfaces\DataSheets\DataSheetInterface;
 use exface\Core\CommonLogic\DataSheets\DataSorter;
 use exface\PerformanceMonitor\PerformanceMonitor;
 use exface\Core\Exceptions\Actions\ActionInputInvalidObjectError;
+use exface\Core\Factories\DataSheetFactory;
 
 class ActionTestApp extends \exface\Core\CommonLogic\AbstractApp
 {
@@ -59,13 +60,13 @@ class ActionTestApp extends \exface\Core\CommonLogic\AbstractApp
 
     public function getTestStepsData(DataSheetInterface $input_data_sheet, array $columns_array)
     {
-        $saved_test_data = $this->getWorkbench()->data()->createDataSheet($this->getWorkbench()->model()->getObject('exface.ActionTest.TEST_STEP'));
+        $saved_test_data = DataSheetFactory::createFromObjectIdOrAlias($this->getWorkbench(), 'exface.ActionTest.TEST_STEP');
         foreach ($columns_array as $column) {
             $saved_test_data->getColumns()->addFromExpression($column);
         }
         
         if ($input_data_sheet->getMetaObject()->is('exface.ActionTest.TEST_CASE')) {
-            $saved_test_data->addFilterFromString('TEST_CASE', implode($input_data_sheet->getMetaObject()->getAttribute('TEST_CASE')->getValueListDelimiter(), $input_data_sheet->getUidColumn()->getValues()), EXF_COMPARATOR_IN);
+            $saved_test_data->addFilterFromString('TEST_CASE', implode($input_data_sheet->getMetaObject()->getUidAttribute()->getValueListDelimiter(), $input_data_sheet->getUidColumn()->getValues()), EXF_COMPARATOR_IN);
             $saved_test_data->getSorters()->addFromString($input_data_sheet->getMetaObject()->getAlias(), DataSorter::DIRECTION_ASC);
             $saved_test_data->getSorters()->addFromString('SEQUENCE', DataSorter::DIRECTION_ASC);
         } elseif ($input_data_sheet->getMetaObject()->is($saved_test_data->getMetaObject())) {
