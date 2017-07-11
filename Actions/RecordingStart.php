@@ -20,7 +20,7 @@ class RecordingStart extends AbstractAction
     {
         $this->setIconName('record');
         $this->setContextScope('window');
-        $this->setContextAlias('ActionTest');
+        $this->setContextAlias('exface.ActionTest.ActionTestContext');
     }
 
     protected function perform()

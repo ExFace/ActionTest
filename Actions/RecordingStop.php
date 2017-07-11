@@ -18,7 +18,7 @@ class RecordingStop extends AbstractAction
     {
         $this->setIconName('stop');
         $this->setContextScope('window');
-        $this->setContextAlias('ActionTest');
+        $this->setContextAlias('exface.ActionTest.ActionTestContext');
     }
 
     protected function perform()
