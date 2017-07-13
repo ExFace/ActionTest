@@ -5,6 +5,10 @@ use exface\Core\CommonLogic\Model\Object;
 use exface\Core\CommonLogic\UxonObject;
 use exface\Core\Events\ActionEvent;
 use exface\Core\CommonLogic\Contexts\AbstractContext;
+use exface\Core\CommonLogic\Constants\Colors;
+use exface\Core\CommonLogic\Constants\Icons;
+use exface\Core\Factories\WidgetFactory;
+use exface\Core\Widgets\Container;
 
 /**
  * FIXME Use the generic DataContext instead of this ugly ActionTest specific context
@@ -237,10 +241,7 @@ class ActionTestContext extends AbstractContext
      */
     public function getIcon()
     {
-        if ($this->isRecording()){
-            return 'record';
-        } 
-        return 'pause';
+        return Icons::VIDEO_CAMERA;
     }
     
     /**
@@ -250,7 +251,60 @@ class ActionTestContext extends AbstractContext
      */
     public function getName()
     {
-        return $this->getWorkbench()->getCoreApp()->getTranslator()->translate('CONTEXT.ACTIONTEST.NAME');
+        return $this->getWorkbench()->getApp('exface.ActionTest')->getTranslator()->translate('CONTEXT.ACTIONTEST.NAME');
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\CommonLogic\Contexts\AbstractContext::getIndicator()
+     */
+    public function getIndicator()
+    {
+        if ($this->isRecording()){
+            return 'REC';
+        }
+        return 'STB';
+    }
+    
+    /**
+     *
+     * {@inheritDoc}
+     * @see \exface\Core\CommonLogic\Contexts\AbstractContext::getIndicatorColor()
+     */
+    public function getIndicatorColor()
+    {
+        if ($this->isRecording()){
+            return Colors::RED;
+        }
+        return Colors::DEFAULT;
+    }
+    
+    /**
+     *
+     * {@inheritDoc}
+     * @see \exface\Core\CommonLogic\Contexts\AbstractContext::getContextBarPopup()
+     */
+    public function getContextBarPopup(Container $container)
+    {
+        /* @var $data_list \exface\Core\Widgets\Menu */
+        $menu = WidgetFactory::create($container->getPage(), 'Menu', $container)
+        ->setCaption($this->getName());
+        
+        // Add the REC button
+        /* @var $button \exface\Core\Widgets\Button */
+        $button = WidgetFactory::create($container->getPage(), $menu->getButtonWidgetType(), $menu)
+        ->setActionAlias('exface.ActionTest.RecordingStart');
+        $menu->addButton($button);
+        
+        // Add the STOP button
+        /* @var $button \exface\Core\Widgets\Button */
+        $button = WidgetFactory::create($container->getPage(), $menu->getButtonWidgetType(), $menu)
+        ->setActionAlias('exface.ActionTest.RecordingStop');
+        $menu->addButton($button);
+        
+        $container->addWidget($menu);
+        return $container;
     }
 }
 ?>
