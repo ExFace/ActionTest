@@ -9,6 +9,8 @@ use exface\Core\CommonLogic\Constants\Colors;
 use exface\Core\CommonLogic\Constants\Icons;
 use exface\Core\Factories\WidgetFactory;
 use exface\Core\Widgets\Container;
+use exface\Core\Interfaces\NameResolverInterface;
+use exface\Core\Exceptions\Contexts\ContextAccessDeniedError;
 
 /**
  * FIXME Use the generic DataContext instead of this ugly ActionTest specific context
@@ -28,6 +30,13 @@ class ActionTestContext extends AbstractContext
     private $skip_next_actions = 0;
 
     private $skip_page_ids = array();
+    
+    public function __construct(NameResolverInterface $name_resolver){
+        parent::__construct($name_resolver);
+        if (! $name_resolver->getWorkbench()->context()->getScopeUser()->isUserAdmin()){
+            throw new ContextAccessDeniedError($this, 'The ActionTest context can currently only be used by administrators!');
+        }
+    }
 
     public function recordingStart()
     {
