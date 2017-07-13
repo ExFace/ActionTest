@@ -3,6 +3,7 @@ namespace exface\ActionTest\Actions;
 
 use exface\Core\CommonLogic\AbstractAction;
 use exface\Core\Interfaces\Actions\iModifyData;
+use exface\Core\CommonLogic\Constants\Icons;
 
 /**
  * This action accepts the current results of one or more actions as the new correct results
@@ -15,7 +16,7 @@ class AcceptChanges extends AbstractAction implements iModifyData
 
     protected function init()
     {
-        $this->setIconName('ok');
+        $this->setIconName(Icons::CHECK_CIRCLE_O);
         $this->setInputRowsMin(1);
         $this->setInputRowsMax(null);
     }

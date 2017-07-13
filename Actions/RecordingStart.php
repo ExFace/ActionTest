@@ -3,6 +3,7 @@ namespace exface\ActionTest\Actions;
 
 use exface\Core\CommonLogic\AbstractAction;
 use exface\Core\CommonLogic\Contexts\ContextActionTrait;
+use exface\Core\CommonLogic\Constants\Icons;
 
 /**
  * This action switches on the record mode in the ActionTest context
@@ -18,7 +19,7 @@ class RecordingStart extends AbstractAction
 
     protected function init()
     {
-        $this->setIconName('record');
+        $this->setIconName(Icons::CIRCLE);
         $this->setContextScope('window');
         $this->setContextAlias('exface.ActionTest.ActionTestContext');
     }
@@ -27,11 +28,11 @@ class RecordingStart extends AbstractAction
     {
         $this->setResult('');
         if ($this->getContext()->isRecording()) {
-            $this->setResultMessage('Already recording anyway!');
+            $this->setResultMessage($this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTART.ALREADY_RECORDING'));
         } else {
             $this->getContext()->recordingStart();
             $this->getContext()->setSkipPageIds($this->getSkipPageIds());
-            $this->setResultMessage('Recording of actions started!');
+            $this->setResultMessage($this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTART.STARTED'));
         }
         return;
     }

@@ -3,6 +3,7 @@ namespace exface\ActionTest\Actions;
 
 use exface\Core\CommonLogic\AbstractAction;
 use exface\Core\CommonLogic\Contexts\ContextActionTrait;
+use exface\Core\CommonLogic\Constants\Icons;
 
 /**
  * This action switches on the record mode in the ActionTest context
@@ -16,7 +17,7 @@ class RecordingStop extends AbstractAction
 
     protected function init()
     {
-        $this->setIconName('stop');
+        $this->setIconName(Icons::STOP);
         $this->setContextScope('window');
         $this->setContextAlias('exface.ActionTest.ActionTestContext');
     }
@@ -27,9 +28,9 @@ class RecordingStop extends AbstractAction
         if ($this->getContext()->isRecording()) {
             $this->getContext()->recordingStop();
             $this->getContext()->setSkipNextActions($this->getContext()->getSkipNextActions() + 1);
-            $this->setResultMessage('Recording of actions stopped!');
+            $this->setResultMessage($this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTOP.STOPPED'));
         } else {
-            $this->setResultMessage('Was not recording anyway!');
+            $this->setResultMessage($this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTOP.NOT_RECORDING'));
         }
         return;
     }

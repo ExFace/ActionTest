@@ -5,6 +5,7 @@ use exface\Core\Actions\ShowDialog;
 use exface\Core\Widgets\Dialog;
 use exface\Core\Widgets\AbstractWidget;
 use exface\Core\Factories\WidgetFactory;
+use exface\Core\CommonLogic\Constants\Icons;
 
 /**
  * This action shows a dialog comparing the current test result to the reference one
@@ -19,7 +20,7 @@ class ShowDiffDialog extends ShowDialog
 
     protected function init()
     {
-        $this->setIconName('compare');
+        $this->setIconName(Icons::COMPARE);
         $this->setInputRowsMin(1);
         $this->setInputRowsMax(1);
         $this->setPrefillWithFilterContext(false);
