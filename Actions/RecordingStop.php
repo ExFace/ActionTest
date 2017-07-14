@@ -1,7 +1,6 @@
 <?php
 namespace exface\ActionTest\Actions;
 
-use exface\Core\CommonLogic\AbstractAction;
 use exface\Core\CommonLogic\Contexts\ContextActionTrait;
 use exface\Core\CommonLogic\Constants\Icons;
 
@@ -11,15 +10,14 @@ use exface\Core\CommonLogic\Constants\Icons;
  * @author Andrej Kabachnik
  *        
  */
-class RecordingStop extends AbstractAction
+class RecordingStop extends RecordingStart
 {
     use ContextActionTrait;
 
     protected function init()
     {
+        parent::init();
         $this->setIconName(Icons::STOP);
-        $this->setContextScope('window');
-        $this->setContextAlias('exface.ActionTest.ActionTestContext');
     }
 
     protected function perform()

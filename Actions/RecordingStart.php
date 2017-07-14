@@ -4,6 +4,8 @@ namespace exface\ActionTest\Actions;
 use exface\Core\CommonLogic\AbstractAction;
 use exface\Core\CommonLogic\Contexts\ContextActionTrait;
 use exface\Core\CommonLogic\Constants\Icons;
+use exface\Core\Interfaces\Actions\iModifyContext;
+use exface\Core\Interfaces\Contexts\ContextManagerInterface;
 
 /**
  * This action switches on the record mode in the ActionTest context
@@ -11,7 +13,7 @@ use exface\Core\CommonLogic\Constants\Icons;
  * @author Andrej Kabachnik
  *        
  */
-class RecordingStart extends AbstractAction
+class RecordingStart extends AbstractAction implements iModifyContext
 {
     use ContextActionTrait;
     
@@ -19,8 +21,9 @@ class RecordingStart extends AbstractAction
 
     protected function init()
     {
+        parent::init();
         $this->setIconName(Icons::CIRCLE);
-        $this->setContextScope('window');
+        $this->setContextScope(ContextManagerInterface::CONTEXT_SCOPE_WINDOW);
         $this->setContextAlias('exface.ActionTest.ActionTestContext');
     }
 
