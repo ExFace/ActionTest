@@ -273,7 +273,7 @@ class ActionTestContext extends AbstractContext
         if ($this->isRecording()){
             return 'REC';
         }
-        return 'STB';
+        return 'OFF';
     }
     
     /**
