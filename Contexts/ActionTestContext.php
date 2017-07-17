@@ -279,9 +279,9 @@ class ActionTestContext extends AbstractContext
     /**
      *
      * {@inheritDoc}
-     * @see \exface\Core\CommonLogic\Contexts\AbstractContext::getIndicatorColor()
+     * @see \exface\Core\CommonLogic\Contexts\AbstractContext::getColor()
      */
-    public function getIndicatorColor()
+    public function getColor()
     {
         if ($this->isRecording()){
             return Colors::RED;
