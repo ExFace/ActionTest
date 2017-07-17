@@ -24,5 +24,13 @@
             "model_md5": "9656b7b058dfa1f5820cc9cf1ef10a1e",
             "model_timestamp": "2016-06-10 09:01:47"
         }
+    },
+    "autoload": {
+        "psr-4": { "exface\\ActionTest\\": "" },
+        "exclude-from-classmap": [
+            "/Config/",
+            "/Translations/",
+            "/Model/"
+        ]
     }
 }
