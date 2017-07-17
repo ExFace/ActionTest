@@ -3,27 +3,26 @@ namespace exface\ActionTest;
 
 use exface\Core\Interfaces\DataSheets\DataSheetInterface;
 use exface\Core\CommonLogic\DataSheets\DataSorter;
-use exface\PerformanceMonitor\PerformanceMonitor;
+use exface\Core\CommonLogic\Profiler;
 use exface\Core\Exceptions\Actions\ActionInputInvalidObjectError;
 use exface\Core\Factories\DataSheetFactory;
 
 class ActionTestApp extends \exface\Core\CommonLogic\AbstractApp
 {
-
-    /**
-     *
-     * @return PerformanceMonitor
-     */
-    public function getPerformanceMonitor()
+    private $profiler = null;
+    
+    public function getProfiler()
     {
-        if ($monitor_app = $this->getWorkbench()->getApp('exface.PerformanceMonitor')) {
-            return $monitor_app->getMonitor();
+        if (is_null($this->profiler)){
+            $this->startProfiler();
         }
+        return $this->profiler;
     }
 
-    public function startPerformanceMonitor()
+    public function startProfiler()
     {
-        $this->getWorkbench()->getApp('exface.PerformanceMonitor');
+        $this->profiler = new Profiler($this->getWorkbench());
+        return $this;
     }
 
     /**

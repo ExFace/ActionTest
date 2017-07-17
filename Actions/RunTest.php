@@ -8,9 +8,12 @@ use exface\Core\CommonLogic\AbstractAction;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Interfaces\Exceptions\ErrorExceptionInterface;
 use exface\Core\CommonLogic\Constants\Icons;
+use exface\ActionTest\ActionTestApp;
 
 /**
  * This action runs one or more selected test steps
+ * 
+ * @method ActionTestApp getApp()
  *
  * @author Andrej Kabachnik
  *        
@@ -22,7 +25,7 @@ class RunTest extends AbstractAction
 
     protected function init()
     {
-        $this->getApp()->startPerformanceMonitor();
+        $this->getApp()->startProfiler();
         $this->setIconName(Icons::PLAY);
         $this->setInputRowsMin(1);
         $this->setInputRowsMax(null);
@@ -118,7 +121,7 @@ class RunTest extends AbstractAction
             $result->setCellValue('ERROR_TEXT', $row_number, implode("\n", $error_messages));
             
             // Add performance monitor data
-            $duration = $this->getApp()->getPerformanceMonitor()->getActionDuration($action);
+            $duration = $this->getApp()->getProfiler()->getActionDuration($action);
             $result->setCellValue('DURATION_CURRENT', $row_number, $duration);
         }
         

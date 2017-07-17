@@ -119,7 +119,7 @@ class ActionTestContext extends AbstractContext
                     'recordAction'
                 ));
                 // Initialize the performance monitor
-                $this->getWorkbench()->getApp('exface.PerformanceMonitor');
+                $this->getApp()->startProfiler();
             }
         }
         if (isset($uxon->skip_next_actions)) {
@@ -184,9 +184,8 @@ class ActionTestContext extends AbstractContext
                 }
                 
                 // Add performance monitor data
-                /* @var $monitor_app \exface\PerformanceMonitor\PerformanceMonitorApp */
-                if ($monitor_app = $this->getWorkbench()->getApp('exface.PerformanceMonitor')) {
-                    $duration = $monitor_app->getMonitor()->getActionDuration($action);
+                if ($profiler = $this->getApp()->getProfiler()) {
+                    $duration = $profiler->getActionDuration($action);
                     $data_sheet->setCellValue('DURATION_CORRECT', 0, $duration);
                     $data_sheet->setCellValue('DURATION_CURRENT', 0, $duration);
                 }
