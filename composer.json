@@ -26,7 +26,9 @@
         }
     },
     "autoload": {
-        "psr-4": { "exface\\ActionTest\\": "" },
+        "psr-4": {
+            "exface\\ActionTest\\": ""
+        },
         "exclude-from-classmap": [
             "/Config/",
             "/Translations/",
