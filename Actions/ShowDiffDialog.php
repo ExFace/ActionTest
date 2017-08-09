@@ -60,7 +60,7 @@ class ShowDiffDialog extends ShowDialog
         
         // Add the accept button
         /* @var $button \exface\Core\Widgets\DialogButton */
-        $button = $this->getCalledOnUiPage()->createWidget('DialogButton', $dialog);
+        $button = $dialog->createButton();
         $button->setCaption('Accept changes');
         $button->setActionAlias('exface.ActionTest.AcceptChanges');
         $button->setCloseDialogAfterActionSucceeds(true);

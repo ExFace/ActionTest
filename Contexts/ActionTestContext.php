@@ -301,14 +301,12 @@ class ActionTestContext extends AbstractContext
         
         // Add the REC button
         /* @var $button \exface\Core\Widgets\Button */
-        $button = WidgetFactory::create($container->getPage(), $menu->getButtonWidgetType(), $menu)
-        ->setActionAlias('exface.ActionTest.RecordingStart');
+        $button = $menu->createButton()->setActionAlias('exface.ActionTest.RecordingStart');
         $menu->addButton($button);
         
         // Add the STOP button
         /* @var $button \exface\Core\Widgets\Button */
-        $button = WidgetFactory::create($container->getPage(), $menu->getButtonWidgetType(), $menu)
-        ->setActionAlias('exface.ActionTest.RecordingStop');
+        $button = $menu->createButton()->setActionAlias('exface.ActionTest.RecordingStop');
         $menu->addButton($button);
         
         $container->addWidget($menu);
