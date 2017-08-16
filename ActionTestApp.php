@@ -6,8 +6,9 @@ use exface\Core\CommonLogic\DataSheets\DataSorter;
 use exface\Core\CommonLogic\Profiler;
 use exface\Core\Exceptions\Actions\ActionInputInvalidObjectError;
 use exface\Core\Factories\DataSheetFactory;
+use exface\Core\CommonLogic\Model\App;
 
-class ActionTestApp extends \exface\Core\CommonLogic\AbstractApp
+class ActionTestApp extends App
 {
     private $profiler = null;
     
