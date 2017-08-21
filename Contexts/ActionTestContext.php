@@ -150,8 +150,9 @@ class ActionTestContext extends AbstractContext
             if ($action->getCalledByWidget()) {
                 $page_id = $action->getCalledByWidget()->getPage()->getId();
             }
-            if (is_null(page_id))
+            if (is_null($page_id)){
                 $page_id = $this->getWorkbench()->getCMS()->getPageId();
+            }
             
             // Only continue if the current page is not the excluded list
             // var_dump($page_id, $this->getSkipPageIds());
