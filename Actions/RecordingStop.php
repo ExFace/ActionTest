@@ -25,7 +25,6 @@ class RecordingStop extends RecordingStart
         $this->setResult('');
         if ($this->getContext()->isRecording()) {
             $this->getContext()->recordingStop();
-            $this->getContext()->setSkipNextActions($this->getContext()->getSkipNextActions() + 1);
             $this->setResultMessage($this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTOP.STOPPED'));
         } else {
             $this->setResultMessage($this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTOP.NOT_RECORDING'));

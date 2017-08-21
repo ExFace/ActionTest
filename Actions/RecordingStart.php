@@ -16,8 +16,6 @@ use exface\Core\Interfaces\Contexts\ContextManagerInterface;
 class RecordingStart extends AbstractAction implements iModifyContext
 {
     use ContextActionTrait;
-    
-    private $skip_page_ids = array();
 
     protected function init()
     {
@@ -34,23 +32,9 @@ class RecordingStart extends AbstractAction implements iModifyContext
             $this->setResultMessage($this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTART.ALREADY_RECORDING'));
         } else {
             $this->getContext()->recordingStart();
-            $this->getContext()->setSkipPageIds($this->getSkipPageIds());
             $this->setResultMessage($this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTART.STARTED'));
         }
         return;
-    }
-
-    public function getSkipPageIds()
-    {
-        return $this->skip_page_ids;
-    }
-
-    public function setSkipPageIds($value)
-    {
-        if ($value) {
-            $this->skip_page_ids = explode(',', $value);
-        }
-        return $this;
     }
 }
 ?>

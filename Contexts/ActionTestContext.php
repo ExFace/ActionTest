@@ -1,7 +1,6 @@
 <?php
 namespace exface\ActionTest\Contexts;
 
-use exface\Core\CommonLogic\Model\Object;
 use exface\Core\CommonLogic\UxonObject;
 use exface\Core\Events\ActionEvent;
 use exface\Core\CommonLogic\Contexts\AbstractContext;
@@ -11,9 +10,10 @@ use exface\Core\Factories\WidgetFactory;
 use exface\Core\Widgets\Container;
 use exface\Core\Interfaces\NameResolverInterface;
 use exface\Core\Exceptions\Contexts\ContextAccessDeniedError;
+use exface\Core\Interfaces\Actions\ActionInterface;
 
 /**
- * FIXME Use the generic DataContext instead of this ugly ActionTest specific context
+ * This context shows a menu for test recording in the ContextBar
  *
  * @author Andrej Kabachnik
  *        
@@ -26,10 +26,6 @@ class ActionTestContext extends AbstractContext
     private $recording_test_case_id = null;
 
     private $recorded_steps_counter = 0;
-
-    private $skip_next_actions = 0;
-
-    private $skip_page_ids = array();
     
     public function __construct(NameResolverInterface $name_resolver){
         parent::__construct($name_resolver);
@@ -57,46 +53,19 @@ class ActionTestContext extends AbstractContext
     }
 
     /**
-     * Returns the number of upcoming actions to be skipped and not recorded.
-     *
-     * @return int
-     */
-    public function getSkipNextActions()
-    {
-        return $this->skip_next_actions;
-    }
-
-    /**
-     * Sets the number of upcoming actions to be skipped and not recorded.
-     *
-     * @param int $value            
-     */
-    public function setSkipNextActions($number)
-    {
-        $this->skip_next_actions = $number;
-        return $this;
-    }
-
-    /**
      *
      * @return UxonObject
      */
     public function exportUxonObject()
     {
-        $uxon = $this->getWorkbench()->createUxonObject();
+        $uxon = new UxonObject();
         if ($this->isRecording()) {
-            $uxon->recording = $this->isRecording();
-            if ($this->getSkipNextActions()) {
-                $uxon->skip_next_actions = $this->getSkipNextActions();
-            }
+            $uxon->setProperty('recording', $this->isRecording());
             if ($this->getRecordedStepsCounter()) {
-                $uxon->recorded_steps_counter = $this->getRecordedStepsCounter();
+                $uxon->setProperty('recorded_steps_counter', $this->getRecordedStepsCounter());
             }
             if ($this->getRecordingTestCaseId()) {
-                $uxon->recording_test_case_id = $this->getRecordingTestCaseId();
-            }
-            if ($this->getSkipPageIds()) {
-                $uxon->skip_page_ids = $this->getSkipPageIds();
+                $uxon->setProperty('recording_test_case_id', $this->getRecordingTestCaseId());
             }
         }
         return $uxon;
@@ -109,8 +78,8 @@ class ActionTestContext extends AbstractContext
      */
     public function importUxonObject(UxonObject $uxon)
     {
-        if (isset($uxon->recording)) {
-            $this->recording = $uxon->recording;
+        if ($uxon->hasProperty('recording')) {
+            $this->recording = $uxon->getProperty('recording');
             
             // If we are recording, register a callback to record an actions output whenever an action is performed
             if ($this->isRecording()) {
@@ -122,87 +91,106 @@ class ActionTestContext extends AbstractContext
                 $this->getApp()->startProfiler();
             }
         }
-        if (isset($uxon->skip_next_actions)) {
-            $this->setSkipNextActions($uxon->skip_next_actions);
+        if ($uxon->hasProperty('recording_test_case_id')) {
+            $this->setRecordingTestCaseId($uxon->getProperty('recording_test_case_id'));
         }
-        if (isset($uxon->recording_test_case_id)) {
-            $this->setRecordingTestCaseId($uxon->recording_test_case_id);
+        if ($uxon->hasProperty('recording_test_case_id')) {
+            $this->setRecordingTestCaseId($uxon->getProperty('recording_test_case_id'));
         }
-        if (isset($uxon->recording_test_case_id)) {
-            $this->setRecordingTestCaseId($uxon->recording_test_case_id);
-        }
-        if (isset($uxon->recorded_steps_counter)) {
-            $this->setRecordedStepsCounter($uxon->recorded_steps_counter);
-        }
-        if (isset($uxon->skip_page_ids)) {
-            $this->setSkipPageIds($uxon->skip_page_ids);
+        if ($uxon->hasProperty('recorded_steps_counter')) {
+            $this->setRecordedStepsCounter($uxon->getProperty('recorded_steps_counter'));
         }
         return $this;
     }
 
     public function recordAction(ActionEvent $event)
     {
-        if ($this->getSkipNextActions() > 0) {
-            $this->setSkipNextActions($this->getSkipNextActions() - 1);
-        } else {
-            $action = $event->getAction();
-            
-            if ($action->getCalledByWidget()) {
-                $page_id = $action->getCalledByWidget()->getPage()->getId();
-            }
-            if (is_null($page_id)){
-                $page_id = $this->getWorkbench()->getCMS()->getPageId();
-            }
-            
-            // Only continue if the current page is not the excluded list
-            // var_dump($page_id, $this->getSkipPageIds());
-            if (! in_array($page_id, $this->getSkipPageIds())) {
-                // Create a test case if needed
-                if (! $this->getRecordingTestCaseId()) {
-                    $test_case_data = $this->getWorkbench()->data()->createDataSheet($this->getWorkbench()->model()->getObject('EXFACE.ACTIONTEST.TEST_CASE'));
-                    $test_case_data->setCellValue('NAME', 0, $this->createTestCaseName($this->getWorkbench()->getCMS()->getPageTitle($page_id)));
-                    $test_case_data->setCellValue('START_PAGE_ID', 0, $page_id);
-                    $test_case_data->setCellValue('START_PAGE_NAME', 0, $this->getWorkbench()->getCMS()->getPageTitle($page_id));
-                    $test_case_data->setCellValue('START_OBJECT', 0, $action->getInputDataSheet()->getMetaObject()->getId());
-                    $test_case_data->dataCreate();
-                    $this->setRecordingTestCaseId($test_case_data->getCellValue($test_case_data->getMetaObject()->getUidAlias(), 0));
-                }
-                
-                // Create the test step itself
-                $data_sheet = $this->getWorkbench()->data()->createDataSheet($this->getWorkbench()->model()->getObject('EXFACE.ACTIONTEST.TEST_STEP'));
-                $data_sheet->setCellValue('SEQUENCE', 0, ($this->getRecordedStepsCounter() + 1));
-                $data_sheet->setCellValue('TEST_CASE', 0, $this->getRecordingTestCaseId());
-                $data_sheet->setCellValue('ACTION_ALIAS', 0, $action->getAliasWithNamespace());
-                $data_sheet->setCellValue('ACTION_DATA', 0, $action->exportUxonObject()->toJson(true));
-                $data_sheet->setCellValue('OUTPUT_CORRECT', 0, $this->getWorkbench()->getApp('exface.ActionTest')->prettify($action->getResultOutput()));
-                $data_sheet->setCellValue('OUTPUT_CURRENT', 0, $this->getWorkbench()->getApp('exface.ActionTest')->prettify($action->getResultOutput()));
-                $data_sheet->setCellValue('MESSAGE_CORRECT', 0, $action->getResultMessage());
-                $data_sheet->setCellValue('MESSAGE_CURRENT', 0, $action->getResultMessage());
-                $data_sheet->setCellValue('RESULT_CORRECT', 0, $action->getResultStringified());
-                $data_sheet->setCellValue('RESULT_CURRENT', 0, $action->getResultStringified());
-                if ($action->getCalledByWidget()) {
-                    $data_sheet->setCellValue('WIDGET_CAPTION', 0, $action->getCalledByWidget()->getCaption());
-                }
-                
-                // Add performance monitor data
-                if ($profiler = $this->getApp()->getProfiler()) {
-                    $duration = $profiler->getActionDuration($action);
-                    $data_sheet->setCellValue('DURATION_CORRECT', 0, $duration);
-                    $data_sheet->setCellValue('DURATION_CURRENT', 0, $duration);
-                }
-                
-                // Add page attributes
-                $data_sheet->setCellValue('PAGE_ID', 0, $page_id);
-                $data_sheet->setCellValue('PAGE_NAME', 0, $this->getWorkbench()->getCMS()->getPageTitle($page_id));
-                $data_sheet->setCellValue('OBJECT', 0, $action->getInputDataSheet()->getMetaObject()->getId());
-                $data_sheet->setCellValue('TEMPLATE_ALIAS', 0, $action->getTemplateAlias());
-                
-                // Save the step to the data source
-                $data_sheet->dataCreate();
-                $this->setRecordedStepsCounter($this->getRecordedStepsCounter() + 1);
-            }
+        
+        $action = $event->getAction();
+        
+        if ($this->skipAction($action)){
+            return $this;
         }
+        
+        if ($action->getCalledByWidget()) {
+            $page_id = $action->getCalledByWidget()->getPage()->getId();
+        }
+        if (is_null($page_id)){
+            $page_id = $this->getWorkbench()->getCMS()->getPageId();
+        }
+        
+        // Create a test case if needed
+        if (! $this->getRecordingTestCaseId()) {
+            $test_case_data = $this->getWorkbench()->data()->createDataSheet($this->getWorkbench()->model()->getObject('EXFACE.ACTIONTEST.TEST_CASE'));
+            $test_case_data->setCellValue('NAME', 0, $this->createTestCaseName($this->getWorkbench()->getCMS()->getPageTitle($page_id)));
+            $test_case_data->setCellValue('START_PAGE_ID', 0, $page_id);
+            $test_case_data->setCellValue('START_PAGE_NAME', 0, $this->getWorkbench()->getCMS()->getPageTitle($page_id));
+            $test_case_data->setCellValue('START_OBJECT', 0, $action->getInputDataSheet()->getMetaObject()->getId());
+            $test_case_data->dataCreate();
+            $this->setRecordingTestCaseId($test_case_data->getCellValue($test_case_data->getMetaObject()->getUidAlias(), 0));
+        }
+        
+        // Create the test step itself
+        $data_sheet = $this->getWorkbench()->data()->createDataSheet($this->getWorkbench()->model()->getObject('EXFACE.ACTIONTEST.TEST_STEP'));
+        $data_sheet->setCellValue('SEQUENCE', 0, ($this->getRecordedStepsCounter() + 1));
+        $data_sheet->setCellValue('TEST_CASE', 0, $this->getRecordingTestCaseId());
+        $data_sheet->setCellValue('ACTION_ALIAS', 0, $action->getAliasWithNamespace());
+        $data_sheet->setCellValue('ACTION_DATA', 0, $action->exportUxonObject()->toJson(true));
+        $data_sheet->setCellValue('OUTPUT_CORRECT', 0, $this->getWorkbench()->getApp('exface.ActionTest')->prettify($action->getResultOutput()));
+        $data_sheet->setCellValue('OUTPUT_CURRENT', 0, $this->getWorkbench()->getApp('exface.ActionTest')->prettify($action->getResultOutput()));
+        $data_sheet->setCellValue('MESSAGE_CORRECT', 0, $action->getResultMessage());
+        $data_sheet->setCellValue('MESSAGE_CURRENT', 0, $action->getResultMessage());
+        $data_sheet->setCellValue('RESULT_CORRECT', 0, $action->getResultStringified());
+        $data_sheet->setCellValue('RESULT_CURRENT', 0, $action->getResultStringified());
+        if ($action->getCalledByWidget()) {
+            $data_sheet->setCellValue('WIDGET_CAPTION', 0, $action->getCalledByWidget()->getCaption());
+        }
+        
+        // Add performance monitor data
+        if ($profiler = $this->getApp()->getProfiler()) {
+            $duration = $profiler->getActionDuration($action);
+            $data_sheet->setCellValue('DURATION_CORRECT', 0, $duration);
+            $data_sheet->setCellValue('DURATION_CURRENT', 0, $duration);
+        }
+        
+        // Add page attributes
+        $data_sheet->setCellValue('PAGE_ID', 0, $page_id);
+        $data_sheet->setCellValue('PAGE_NAME', 0, $this->getWorkbench()->getCMS()->getPageTitle($page_id));
+        $data_sheet->setCellValue('OBJECT', 0, $action->getInputDataSheet()->getMetaObject()->getId());
+        $data_sheet->setCellValue('TEMPLATE_ALIAS', 0, $action->getTemplateAlias());
+        
+        // Save the step to the data source
+        $data_sheet->dataCreate();
+        $this->setRecordedStepsCounter($this->getRecordedStepsCounter() + 1);
+        
         return $this;
+    }
+    
+    /**
+     * Returns TRUE if the given action should NOT be recorded and FALSE otherwise.
+     * 
+     * @param ActionInterface $action
+     * @return boolean
+     */
+    protected function skipAction(ActionInterface $action)
+    {
+        // Do not record start/stop actions
+        if ($action->is('exface.ActionTest.RecordingStart') || $action->is('exface.ActionTest.RecordingStop')){
+            return true;
+        }
+        
+        // Do not record opening the popup of the ActionTest context
+        if ($action->is('exface.Core.ShowContextPopup') && $action->getContext() === $this){
+            return true;
+        }
+        
+        // Do not log ContextBar refresh actions as they occur automatically
+        // after many types of requests.
+        if ($action->getAliasWithNamespace() === 'exface.Core.ShowWidget' && $action->getWidget()->is('ContextBar')){
+            return true;
+        }
+        
+        return false;
     }
 
     protected function createTestCaseName($page_name = null)
@@ -229,17 +217,6 @@ class ActionTestContext extends AbstractContext
     public function setRecordedStepsCounter($value)
     {
         $this->recorded_steps_counter = $value;
-        return $this;
-    }
-
-    public function getSkipPageIds()
-    {
-        return $this->skip_page_ids;
-    }
-
-    public function setSkipPageIds(array $value)
-    {
-        $this->skip_page_ids = $value;
         return $this;
     }
     
