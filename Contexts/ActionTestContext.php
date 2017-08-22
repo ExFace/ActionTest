@@ -11,6 +11,7 @@ use exface\Core\Widgets\Container;
 use exface\Core\Interfaces\NameResolverInterface;
 use exface\Core\Exceptions\Contexts\ContextAccessDeniedError;
 use exface\Core\Interfaces\Actions\ActionInterface;
+use exface\Core\CommonLogic\DataSheets\DataSorter;
 
 /**
  * This context shows a menu for test recording in the ContextBar
@@ -273,21 +274,42 @@ class ActionTestContext extends AbstractContext
      */
     public function getContextBarPopup(Container $container)
     {
-        /* @var $data_list \exface\Core\Widgets\Menu */
-        $menu = WidgetFactory::create($container->getPage(), 'Menu', $container)
-        ->setCaption($this->getName());
+        $test_case_object = $this->getWorkbench()->model()->getObject('exface.ActionTest.TEST_CASE');
+        /* @var $table \exface\Core\Widgets\DataTable */
+        $table = WidgetFactory::create($container->getPage(), 'DataTable', $container);
+        $table
+            ->setCaption($this->getName())
+            ->setMetaObject($test_case_object)
+            ->setPaginatePageSize(10)
+            ->setPaginate(false)
+            ->setLazyLoading(false)
+            ->setNowrap(false)
+            ->addColumn($table->createColumnFromAttribute($test_case_object->getLabelAttribute()))
+            ->addSorter('CREATED_ON', DataSorter::DIRECTION_DESC);
+        
+        $table->getToolbarMain()->setIncludeSearchActions(false);
         
         // Add the REC button
-        /* @var $button \exface\Core\Widgets\Button */
-        $button = $menu->createButton()->setActionAlias('exface.ActionTest.RecordingStart');
-        $menu->addButton($button);
+        $table->addButton(
+            $table->createButton()->setActionAlias('exface.ActionTest.RecordingStart')
+        );
         
         // Add the STOP button
-        /* @var $button \exface\Core\Widgets\Button */
-        $button = $menu->createButton()->setActionAlias('exface.ActionTest.RecordingStop');
-        $menu->addButton($button);
+        $table->addButton(
+            $table->createButton()->setActionAlias('exface.ActionTest.RecordingStop')
+        );
         
-        $container->addWidget($menu);
+        // Add the EDIT button
+        $table->addButton(
+            $table->createButton()->setActionAlias('exface.Core.EditObjectDialog')->setVisibility(EXF_WIDGET_VISIBILITY_OPTIONAL)
+        );
+        
+        // Add the DELETE button
+        $table->addButton(
+            $table->createButton()->setActionAlias('exface.Core.DeleteObject')->setVisibility(EXF_WIDGET_VISIBILITY_OPTIONAL)
+        );
+        
+        $container->addWidget($table);
         return $container;
     }
 }
