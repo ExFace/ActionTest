@@ -128,7 +128,7 @@ class ActionTestContext extends AbstractContext
             $test_case_data->setCellValue('START_PAGE_NAME', 0, $this->getWorkbench()->ui()->getPage($page_alias)->getName());
             $test_case_data->setCellValue('START_OBJECT', 0, $action->getInputDataSheet()->getMetaObject()->getId());
             $test_case_data->dataCreate();
-            $this->setRecordingTestCaseId($test_case_data->getCellValue($test_case_data->getMetaObject()->getUidAlias(), 0));
+            $this->setRecordingTestCaseId($test_case_data->getCellValue($test_case_data->getMetaObject()->getUidAttributeAlias(), 0));
         }
         
         // Create the test step itself
