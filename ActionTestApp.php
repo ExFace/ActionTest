@@ -89,10 +89,8 @@ class ActionTestApp extends App
      */
     public function getInstaller(InstallerInterface $injected_installer = null)
     {
-        // Add the custom MODx installer
-        $installer = parent::getInstaller($injected_installer);
-        
         // Add the SQL schema installer for DB fixes
+        $installer = parent::getInstaller($injected_installer);
         $schema_installer = new SqlSchemaInstaller($this->getNameResolver());
         $schema_installer->setLastUpdateIdConfigOption('LAST_PERFORMED_MODEL_SOURCE_UPDATE_ID');
         // FIXME how to get to the MODx data connection without knowing, that is used for the model loader. The model loader could
