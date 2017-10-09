@@ -1026,7 +1026,7 @@
             "LABEL": "Errors",
             "ALIAS": "ERRORS",
             "DATATYPE": "0x31000000000000000000000000000000",
-            "DATA_ADDRESS": "IFNULL((SELECT SUM([#alias#]ts.diffs_in_message_flag+[#alias#]ts.diffs_in_result_flag+[#alias#]ts.diffs_in_output_flag) FROM exf_actest_test_step [#alias#]ts WHERE [#alias#]ts.test_case_oid = [#alias#].oid GROUP BY [#alias#]ts.test_case_oid),0)",
+            "DATA_ADDRESS": "IFNULL((SELECT SUM([#~alias#]ts.diffs_in_message_flag+[#~alias#]ts.diffs_in_result_flag+[#~alias#]ts.diffs_in_output_flag) FROM exf_actest_test_step [#~alias#]ts WHERE [#~alias#]ts.test_case_oid = [#~alias#].oid GROUP BY [#~alias#]ts.test_case_oid),0)",
             "OBJECT": "0x31313600000000000000000000000000",
             "FORMATTER": "",
             "DISPLAYORDER": null,
