@@ -30,7 +30,7 @@ class ActionTestContext extends AbstractContext
     
     public function __construct(NameResolverInterface $name_resolver){
         parent::__construct($name_resolver);
-        if ($name_resolver->getWorkbench()->context()->getScopeUser()->isUserAnonymous()){
+        if ($name_resolver->getWorkbench()->context()->getScopeUser()->getUserCurrent()->isUserAnonymous()){
             throw new ContextAccessDeniedError($this, 'The ActionTest context cannot be used for anonymous users!');
         }
     }
