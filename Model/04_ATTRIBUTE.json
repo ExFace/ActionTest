@@ -849,7 +849,7 @@
         },
         {
             "CREATED_ON": "2007-01-01 00:00:00",
-            "MODIFIED_ON": "2017-09-14 12:46:21",
+            "MODIFIED_ON": "2007-01-01 00:00:00",
             "CREATED_BY_USER": "",
             "MODIFIED_BY_USER": "",
             "UID": "0x34363600000000000000000000000000",
@@ -858,10 +858,10 @@
             "AGGREGATABLEFLAG": "1",
             "DEFAULT_AGGREGATE_FUNCTION": "",
             "VALUE_LIST_DELIMITER": ",",
-            "LABEL": "Page Alias",
-            "ALIAS": "PAGE_ALIAS",
+            "LABEL": "Page ID",
+            "ALIAS": "PAGE_ID",
             "DATATYPE": "0x30000000000000000000000000000000",
-            "DATA_ADDRESS": "page_alias",
+            "DATA_ADDRESS": "page_id",
             "OBJECT": "0x31313700000000000000000000000000",
             "FORMATTER": "",
             "DISPLAYORDER": "4",
@@ -878,7 +878,7 @@
             "DATA_ADDRESS_PROPS": "{}",
             "DEFAULT_VALUE": "",
             "FIXED_VALUE": "",
-            "DEFAULT_EDITOR_UXON": "{}"
+            "DEFAULT_EDITOR_UXON": ""
         },
         {
             "CREATED_ON": "2007-01-01 00:00:00",
@@ -948,7 +948,7 @@
         },
         {
             "CREATED_ON": "2007-01-01 00:00:00",
-            "MODIFIED_ON": "2017-09-14 12:44:40",
+            "MODIFIED_ON": "2007-01-01 00:00:00",
             "CREATED_BY_USER": "",
             "MODIFIED_BY_USER": "",
             "UID": "0x34363900000000000000000000000000",
@@ -957,10 +957,10 @@
             "AGGREGATABLEFLAG": "1",
             "DEFAULT_AGGREGATE_FUNCTION": "",
             "VALUE_LIST_DELIMITER": ",",
-            "LABEL": "Page Alias",
-            "ALIAS": "START_PAGE_ALIAS",
+            "LABEL": "Page ID",
+            "ALIAS": "START_PAGE_ID",
             "DATATYPE": "0x30000000000000000000000000000000",
-            "DATA_ADDRESS": "start_page_alias",
+            "DATA_ADDRESS": "start_page_id",
             "OBJECT": "0x31313600000000000000000000000000",
             "FORMATTER": "",
             "DISPLAYORDER": "2",
@@ -977,7 +977,7 @@
             "DATA_ADDRESS_PROPS": "{}",
             "DEFAULT_VALUE": "",
             "FIXED_VALUE": "",
-            "DEFAULT_EDITOR_UXON": "{}"
+            "DEFAULT_EDITOR_UXON": ""
         },
         {
             "CREATED_ON": "2007-01-01 00:00:00",
@@ -1026,7 +1026,7 @@
             "LABEL": "Errors",
             "ALIAS": "ERRORS",
             "DATATYPE": "0x31000000000000000000000000000000",
-            "DATA_ADDRESS": "IFNULL((SELECT SUM([#alias#]ts.diffs_in_message_flag+[#alias#]ts.diffs_in_result_flag+[#alias#]ts.diffs_in_output_flag) FROM exf_actest_test_step [#alias#]ts WHERE [#alias#]ts.test_case_oid = [#alias#].oid GROUP BY [#alias#]ts.test_case_oid),0)",
+            "DATA_ADDRESS": "IFNULL((SELECT SUM([#~alias#]ts.diffs_in_message_flag+[#~alias#]ts.diffs_in_result_flag+[#~alias#]ts.diffs_in_output_flag) FROM exf_actest_test_step [#~alias#]ts WHERE [#~alias#]ts.test_case_oid = [#~alias#].oid GROUP BY [#~alias#]ts.test_case_oid),0)",
             "OBJECT": "0x31313600000000000000000000000000",
             "FORMATTER": "",
             "DISPLAYORDER": null,
