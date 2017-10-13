@@ -21,8 +21,8 @@
         "app": {
             "app_uid": "0x31350000000000000000000000000000",
             "app_alias": "exface.ActionTest",
-            "model_md5": "212cd06dae73192b39d69471e22492be",
-            "model_timestamp": "2016-06-10 09:01:47"
+            "model_md5": "ba101007adc7b2f84efdcee9066e6b56",
+            "model_timestamp": "2017-10-13 08:02:17"
         }
     },
     "autoload": {
