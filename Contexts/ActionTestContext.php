@@ -196,7 +196,7 @@ class ActionTestContext extends AbstractContext
 
     protected function createTestCaseName($page_name = null)
     {
-        return $page_name . ' (' . date($this->getWorkbench()->getCoreApp()->getTranslator()->translate('GLOBAL.DEFAULT_DATETIME_FORMAT')) . ')';
+        return $page_name . ' (' . date($this->getWorkbench()->getCoreApp()->getTranslator()->translate('LOCALIZATION.DATE.DATETIME_FORMAT')) . ')';
     }
 
     public function getRecordingTestCaseId()
