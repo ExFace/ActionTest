@@ -1,0 +1,54 @@
+{
+    "id": "0xf8316cf0ba2c11e7895fe4b318306b9a",
+    "alias_with_namespace": "exface.actiontest.test-case-categories",
+    "menu_parent_page_alias": "exface.actiontest.test-categories",
+    "menu_index": "2",
+    "menu_visible": false,
+    "name": "Test case categories",
+    "short_description": "",
+    "replaces_page_alias": "",
+    "contents": {
+        "widget_type": "DataTable",
+        "object_alias": "exface.ActionTest.TEST_CASE_CATEGORIES",
+        "filters": [
+            {
+                "attribute_alias": "TEST_CASE"
+            },
+            {
+                "attribute_alias": "CATEGORY"
+            }
+        ],
+        "columns": [
+            {
+                "attribute_alias": "TEST_CASE__LABEL"
+            },
+            {
+                "attribute_alias": "CATEGORY__LABEL"
+            }
+        ],
+        "Buttons": [
+            {
+                "action_alias": "exface.Core.CreateObjectDialog",
+                "caption": "New"
+            },
+            {
+                "action_alias": "exface.Core.EditObjectDialog",
+                "bind_to_double_click": true,
+                "caption": "Edit"
+            },
+            {
+                "action_alias": "exface.Core.DuplicateObjectDialog",
+                "caption": "Copy"
+            },
+            {
+                "action_alias": "exface.Core.DeleteObject",
+                "caption": "Delete"
+            },
+            {
+                "action_alias": "exface.Core.GoToPage",
+                "action_page_alias": 150,
+                "caption": "Test cases"
+            }
+        ]
+    }
+}

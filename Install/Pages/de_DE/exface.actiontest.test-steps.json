@@ -1,0 +1,171 @@
+{
+    "id": "0xf8313f08ba2c11e7895fe4b318306b9a",
+    "alias_with_namespace": "exface.actiontest.test-steps",
+    "menu_parent_page_alias": "exface.actiontest.action-test",
+    "menu_index": "2",
+    "menu_visible": true,
+    "name": "Test steps",
+    "short_description": "",
+    "replaces_page_alias": "",
+    "contents": {
+        "widget_type": "DataTable",
+        "object_alias": "exface.ActionTest.TEST_STEP",
+        "multi_select": true,
+        "filters": [
+            {
+                "attribute_alias": "TEST_CASE"
+            },
+            {
+                "attribute_alias": "OBJECT"
+            }
+        ],
+        "columns": [
+            {
+                "attribute_alias": "SEQUENCE"
+            },
+            {
+                "attribute_alias": "PAGE_ID"
+            },
+            {
+                "attribute_alias": "PAGE_NAME"
+            },
+            {
+                "attribute_alias": "WIDGET_CAPTION"
+            },
+            {
+                "attribute_alias": "ACTION_ALIAS"
+            },
+            {
+                "attribute_alias": "OK_FLAG",
+                "cell_styler_script": "if (value>0){return 'background-color:green;';} else {return 'background-color:red;color:white;';}"
+            },
+            {
+                "attribute_alias": "ERRORS_COUNT",
+                "cell_styler_script": "if (value>0){return 'background-color:red;color:white;';}"
+            },
+            {
+                "caption": "Differences",
+                "widget_type": "DataColumnGroup",
+                "columns": [
+                    {
+                        "attribute_alias": "DIFFS_IN_OUTPUT_FLAG",
+                        "caption": "Output",
+                        "cell_styler_script": "if (value>0){return 'background-color:red;color:white;';}"
+                    },
+                    {
+                        "attribute_alias": "DIFFS_IN_RESULT_FLAG",
+                        "caption": "Result",
+                        "cell_styler_script": "if (value>0){return 'background-color:red;color:white;';}"
+                    },
+                    {
+                        "attribute_alias": "DIFFS_IN_MESSAGE_FLAG",
+                        "caption": "Message",
+                        "cell_styler_script": "if (value>0){return 'background-color:red;color:white;';}"
+                    },
+                    {
+                        "attribute_alias": "IGNORE_DIFFS",
+                        "caption": "Ignore data",
+                        "editor": {
+                            "widget_type": "CheckBox"
+                        }
+                    }
+                ]
+            },
+            {
+                "attribute_alias": "MESSAGE_CORRECT"
+            },
+            {
+                "attribute_alias": "ERROR_TEXT"
+            },
+            {
+                "attribute_alias": "OBJECT__LABEL"
+            },
+            {
+                "attribute_alias": "LAST_TEST_TIME"
+            },
+            {
+                "attribute_alias": "COMMENTS",
+                "editor": {
+                    "widget_type": "Input"
+                }
+            },
+            {
+                "caption": "Duration",
+                "columns": [
+                    {
+                        "attribute_alias": "DURATION_CORRECT",
+                        "caption": "Prev."
+                    },
+                    {
+                        "attribute_alias": "DURATION_CURRENT",
+                        "caption": "Cur."
+                    }
+                ]
+            },
+            {
+                "attribute_alias": "TEST_CASE__LABEL"
+            }
+        ],
+        "sorters": [
+            {
+                "attribute_alias": "TEST_CASE",
+                "direction": "ASC"
+            },
+            {
+                "attribute_alias": "SEQUENCE",
+                "direction": "ASC"
+            }
+        ],
+        "buttons": [
+            {
+                "action_alias": "exface.Core.saveData",
+                "caption": "Save"
+            },
+            {
+                "action_alias": "exface.Core.EditObjectDialog",
+                "caption": "Edit"
+            },
+            {
+                "action_alias": "exface.Core.DeleteObject",
+                "caption": "Delete"
+            },
+            {
+                "action_alias": "exface.ActionTest.RunTest",
+                "caption": "Run Test"
+            },
+            {
+                "action_alias": "exface.ActionTest.ShowDiffDialog",
+                "bind_to_double_click": true,
+                "caption": "Diff"
+            },
+            {
+                "action_alias": "exface.ActionTest.AcceptChanges",
+                "caption": "Accept"
+            },
+            {
+                "action_alias": "exface.Core.GoToUrl",
+                "action_url": "[#PAGE_ID#]",
+                "action_open_in_new_window": true,
+                "caption": "Open page"
+            },
+            {
+                "action_alias": "exface.Core.MassEditDialog",
+                "caption": "Move",
+                "action_widget": {
+                    "widget_type": "Dialog",
+                    "widgets": [
+                        {
+                            "attribute_alias": "TEST_CASE"
+                        }
+                    ],
+                    "Buttons": [
+                        {
+                            "action_alias": "exface.Core.UpdateData",
+                            "caption": "OK"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
