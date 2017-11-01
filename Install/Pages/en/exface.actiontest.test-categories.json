@@ -43,7 +43,7 @@
             },
             {
                 "action_alias": "exface.Core.GoToPage",
-                "action_page_alias": 150,
+                "action_page_alias": "exface.actiontest.action-test",
                 "caption": "Test cases"
             }
         ]

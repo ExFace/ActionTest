@@ -91,7 +91,7 @@
             },
             {
                 "action_alias": "exface.Core.GoToPage",
-                "action_page_alias": 263,
+                "action_page_alias": "exface.actiontest.test-case-categories",
                 "caption": "Categories"
             },
             {
@@ -104,7 +104,7 @@
             },
             {
                 "action_alias": "exface.Core.GoToPage",
-                "action_page_alias": 152,
+                "action_page_alias": "exface.actiontest.test-steps",
                 "caption": "Show steps"
             },
             {
