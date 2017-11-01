@@ -20,7 +20,7 @@ class RecordingStart extends AbstractAction implements iModifyContext
     protected function init()
     {
         parent::init();
-        $this->setIconName(Icons::CIRCLE);
+        $this->setIcon(Icons::CIRCLE);
         $this->setContextScope(ContextManagerInterface::CONTEXT_SCOPE_WINDOW);
         $this->setContextAlias('exface.ActionTest.ActionTestContext');
     }

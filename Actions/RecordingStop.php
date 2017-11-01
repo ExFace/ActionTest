@@ -17,7 +17,7 @@ class RecordingStop extends RecordingStart
     protected function init()
     {
         parent::init();
-        $this->setIconName(Icons::STOP);
+        $this->setIcon(Icons::STOP);
     }
 
     protected function perform()

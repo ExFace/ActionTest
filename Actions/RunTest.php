@@ -26,7 +26,7 @@ class RunTest extends AbstractAction
     protected function init()
     {
         $this->getApp()->startProfiler();
-        $this->setIconName(Icons::PLAY);
+        $this->setIcon(Icons::PLAY);
         $this->setInputRowsMin(1);
         $this->setInputRowsMax(null);
     }

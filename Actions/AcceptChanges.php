@@ -16,7 +16,7 @@ class AcceptChanges extends AbstractAction implements iModifyData
 
     protected function init()
     {
-        $this->setIconName(Icons::CHECK_CIRCLE_O);
+        $this->setIcon(Icons::CHECK_CIRCLE_O);
         $this->setInputRowsMin(1);
         $this->setInputRowsMax(null);
     }

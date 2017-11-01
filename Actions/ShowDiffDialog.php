@@ -20,7 +20,7 @@ class ShowDiffDialog extends ShowDialog
 
     protected function init()
     {
-        $this->setIconName(Icons::COMPARE);
+        $this->setIcon(Icons::COMPARE);
         $this->setInputRowsMin(1);
         $this->setInputRowsMax(1);
         $this->setPrefillWithFilterContext(false);
