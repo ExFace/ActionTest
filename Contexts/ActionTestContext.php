@@ -114,18 +114,18 @@ class ActionTestContext extends AbstractContext
         }
         
         if ($action->getCalledByWidget()) {
-            $page_id = $action->getCalledByWidget()->getPage()->getId();
+            $page_alias = $action->getCalledByWidget()->getPage()->getAliasWithNamespace();
         }
-        if (is_null($page_id)){
-            $page_id = $this->getWorkbench()->getCMS()->getPageId();
+        if (is_null($page_alias)){
+            $page_alias = $this->getWorkbench()->ui()->getPageCurrent()->getAliasWithNamespace();
         }
         
         // Create a test case if needed
         if (! $this->getRecordingTestCaseId()) {
             $test_case_data = $this->getWorkbench()->data()->createDataSheet($this->getWorkbench()->model()->getObject('EXFACE.ACTIONTEST.TEST_CASE'));
-            $test_case_data->setCellValue('NAME', 0, $this->createTestCaseName($this->getWorkbench()->getCMS()->getPageTitle($page_id)));
-            $test_case_data->setCellValue('START_PAGE_ID', 0, $page_id);
-            $test_case_data->setCellValue('START_PAGE_NAME', 0, $this->getWorkbench()->getCMS()->getPageTitle($page_id));
+            $test_case_data->setCellValue('NAME', 0, $this->createTestCaseName($this->getWorkbench()->ui()->getPage($page_alias)->getName()));
+            $test_case_data->setCellValue('START_PAGE_ALIAS', 0, $page_alias);
+            $test_case_data->setCellValue('START_PAGE_NAME', 0, $this->getWorkbench()->ui()->getPage($page_alias)->getName());
             $test_case_data->setCellValue('START_OBJECT', 0, $action->getInputDataSheet()->getMetaObject()->getId());
             $test_case_data->dataCreate();
             $this->setRecordingTestCaseId($test_case_data->getCellValue($test_case_data->getMetaObject()->getUidAttributeAlias(), 0));
@@ -155,8 +155,8 @@ class ActionTestContext extends AbstractContext
         }
         
         // Add page attributes
-        $data_sheet->setCellValue('PAGE_ID', 0, $page_id);
-        $data_sheet->setCellValue('PAGE_NAME', 0, $this->getWorkbench()->getCMS()->getPageTitle($page_id));
+        $data_sheet->setCellValue('PAGE_ALIAS', 0, $page_alias);
+        $data_sheet->setCellValue('PAGE_NAME', 0, $this->getWorkbench()->ui()->getPage($page_alias)->getName());
         $data_sheet->setCellValue('OBJECT', 0, $action->getInputDataSheet()->getMetaObject()->getId());
         $data_sheet->setCellValue('TEMPLATE_ALIAS', 0, $action->getTemplateAlias());
         
