@@ -264,7 +264,7 @@ class ActionTestContext extends AbstractContext
         if ($this->isRecording()){
             return Colors::RED;
         }
-        return Colors::DEFAULT;
+        return Colors::DEFAULT_COLOR;
     }
     
     /**
