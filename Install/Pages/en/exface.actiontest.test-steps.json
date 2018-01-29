@@ -65,7 +65,7 @@
                     {
                         "attribute_alias": "IGNORE_DIFFS",
                         "caption": "Ignore data",
-                        "editor": {
+                        "cell_widget": {
                             "widget_type": "CheckBox"
                         }
                     }
@@ -85,7 +85,7 @@
             },
             {
                 "attribute_alias": "COMMENTS",
-                "editor": {
+                "cell_widget": {
                     "widget_type": "Input"
                 }
             },
