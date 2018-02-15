@@ -5,7 +5,8 @@
     "menu_index": "2",
     "menu_visible": true,
     "name": "Test categories",
-    "short_description": "",
+    "description": "",
+    "intro": "",
     "replaces_page_alias": null,
     "contents": {
         "widget_type": "DataTable",
