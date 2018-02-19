@@ -3,7 +3,6 @@ namespace exface\ActionTest\Actions;
 
 use exface\Core\CommonLogic\UxonObject;
 use exface\Core\Factories\ActionFactory;
-use exface\Core\CommonLogic\NameResolver;
 use exface\Core\CommonLogic\AbstractAction;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Interfaces\Exceptions\ErrorExceptionInterface;
