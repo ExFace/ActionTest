@@ -9,6 +9,7 @@ use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Interfaces\Exceptions\ErrorExceptionInterface;
 use exface\Core\CommonLogic\Constants\Icons;
 use exface\ActionTest\ActionTestApp;
+use exface\Core\CommonLogic\Selectors\ActionSelector;
 
 /**
  * This action runs one or more selected test steps
@@ -61,7 +62,7 @@ class RunTest extends AbstractAction
             $error_messages = array();
             
             // Instantiate the action and get the current results
-            $action = ActionFactory::create($this->getWorkbench()->createNameResolver($row_data['ACTION_ALIAS'], NameResolver::OBJECT_TYPE_ACTION), null, UxonObject::fromJson($row_data['ACTION_DATA']));
+            $action = ActionFactory::create(new ActionSelector($this->getWorkbench(), $row_data['ACTION_ALIAS']), null, UxonObject::fromJson($row_data['ACTION_DATA']));
             
             // Restore the exact environment from the recording
             $this->prepareEnvironment($action);
