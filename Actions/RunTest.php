@@ -136,14 +136,12 @@ class RunTest extends AbstractAction
 
     protected function prepareEnvironment(ActionInterface $action)
     {
-        $this->called_in_template = $this->getWorkbench()->ui()->getTemplateFromRequest()->getAliasWithNamespace();
-        $this->getWorkbench()->ui()->setBaseTemplateAlias($action->getTemplateAlias());
         // TODO also replace the contexts
     }
 
     protected function revertEnvironment()
     {
-        $this->getWorkbench()->ui()->setBaseTemplateAlias($this->called_in_template);
+        // TODO
     }
 }
 ?>
