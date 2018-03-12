@@ -113,8 +113,8 @@ class ActionTestContext extends AbstractContext
             return $this;
         }
         
-        if ($action->getTriggerWidget()) {
-            $page_alias = $action->getTriggerWidget()->getPage()->getAliasWithNamespace();
+        if ($action->getWidgetDefinedIn()) {
+            $page_alias = $action->getWidgetDefinedIn()->getPage()->getAliasWithNamespace();
         }
         if (is_null($page_alias)){
             $page_alias = $this->getWorkbench()->ui()->getPageCurrent()->getAliasWithNamespace();
@@ -143,8 +143,8 @@ class ActionTestContext extends AbstractContext
         $data_sheet->setCellValue('MESSAGE_CURRENT', 0, $action->getResultMessage());
         $data_sheet->setCellValue('RESULT_CORRECT', 0, $action->getResultStringified());
         $data_sheet->setCellValue('RESULT_CURRENT', 0, $action->getResultStringified());
-        if ($action->getTriggerWidget()) {
-            $data_sheet->setCellValue('WIDGET_CAPTION', 0, $action->getTriggerWidget()->getCaption());
+        if ($action->getWidgetDefinedIn()) {
+            $data_sheet->setCellValue('WIDGET_CAPTION', 0, $action->getWidgetDefinedIn()->getCaption());
         }
         
         // Add performance monitor data

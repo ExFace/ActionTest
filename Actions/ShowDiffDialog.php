@@ -51,7 +51,7 @@ class ShowDiffDialog extends ShowDialog
         $dialog = parent::enhanceDialogWidget($dialog);
         
         // Create tabs for different things to compare
-        $tabs = $this->getCalledOnUiPage()->createWidget('Tabs', $dialog);
+        $tabs = WidgetFactory::create($this->getWidgetDefinedIn()->getPage(), 'Tabs', $dialog);
         $tabs->addTab($this->createDiffWidget($dialog, 'OUTPUT_CORRECT', 'OUTPUT_CURRENT', 'Output'));
         $tabs->addTab($this->createDiffWidget($dialog, 'RESULT_CORRECT', 'RESULT_CURRENT', 'Result'));
         $tabs->addTab($this->createDiffWidget($dialog, 'MESSAGE_CORRECT', 'MESSAGE_CURRENT', 'Message'));
@@ -83,7 +83,7 @@ class ShowDiffDialog extends ShowDialog
     protected function createDiffWidget(AbstractWidget $parent, $left_attribute_alias, $rigt_attribute_alias, $caption)
     {
         /* @var $widget \exface\Core\Widgets\DiffText */
-        $widget = $this->getCalledOnUiPage()->createWidget($this->getDiffWidgetType(), $parent);
+        $widget = WidgetFactory::create($this->getWidgetDefinedIn()->getPage(), $this->getDiffWidgetType(), $parent);
         $widget->setLeftAttributeAlias($left_attribute_alias);
         $widget->setRightAttributeAlias($rigt_attribute_alias);
         $widget->setCaption($caption);
