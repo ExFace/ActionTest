@@ -4,6 +4,10 @@ namespace exface\ActionTest\Actions;
 use exface\Core\CommonLogic\AbstractAction;
 use exface\Core\Interfaces\Actions\iModifyData;
 use exface\Core\CommonLogic\Constants\Icons;
+use exface\Core\Interfaces\Tasks\TaskInterface;
+use exface\Core\Interfaces\DataSources\DataTransactionInterface;
+use exface\Core\Interfaces\Tasks\TaskResultInterface;
+use exface\Core\Factories\TaskResultFactory;
 
 /**
  * This action accepts the current results of one or more actions as the new correct results
@@ -21,8 +25,9 @@ class AcceptChanges extends AbstractAction implements iModifyData
         $this->setInputRowsMax(null);
     }
 
-    protected function perform()
+    protected function perform(TaskInterface $task, DataTransactionInterface $transaction) : TaskResultInterface
     {
+        $input = $this->getInputDataSheet($task);
         
         // Fetch the currently saved test data
         $columns = array(
@@ -32,38 +37,37 @@ class AcceptChanges extends AbstractAction implements iModifyData
             'DURATION_CURRENT',
             'ERRORS_COUNT'
         );
-        $saved_test_data = $this->getApp()->getTestStepsData($this->getInputDataSheet(), $columns);
+        $saved_test_data = $this->getApp()->getTestStepsData($input, $columns);
         
         // Create a result data sheet
-        $result = $this->getWorkbench()->data()->createDataSheet($saved_test_data->getMetaObject());
+        $result_sheet = $this->getWorkbench()->data()->createDataSheet($saved_test_data->getMetaObject());
         // Run a test for each row of the saved data and save the test result to the result data sheet
         foreach ($saved_test_data->getRows() as $row_number => $row_data) {
             // Add the correct values from the saved data to the result data sheet
             // First copy the system fields (like the UID)
             foreach ($saved_test_data->getColumns()->getSystem()->getAll() as $col) {
-                $result->setCellValue($col->getName(), $row_number, $col->getCellValue($row_number));
+                $result_sheet->setCellValue($col->getName(), $row_number, $col->getCellValue($row_number));
             }
             // Then the actual data
-            $result->setCellValue('MESSAGE_CORRECT', $row_number, $saved_test_data->getCellValue('MESSAGE_CURRENT', $row_number));
-            $result->setCellValue('OUTPUT_CORRECT', $row_number, $saved_test_data->getCellValue('OUTPUT_CURRENT', $row_number));
-            $result->setCellValue('RESULT_CORRECT', $row_number, $saved_test_data->getCellValue('RESULT_CURRENT', $row_number));
-            $result->setCellValue('DURATION_CORRECT', $row_number, $saved_test_data->getCellValue('DURATION_CURRENT', $row_number));
-            $result->setCellValue('DIFFS_IN_MESSAGE_FLAG', $row_number, 0);
-            $result->setCellValue('DIFFS_IN_RESULT_FLAG', $row_number, 0);
-            $result->setCellValue('DIFFS_IN_OUTPUT_FLAG', $row_number, 0);
+            $result_sheet->setCellValue('MESSAGE_CORRECT', $row_number, $saved_test_data->getCellValue('MESSAGE_CURRENT', $row_number));
+            $result_sheet->setCellValue('OUTPUT_CORRECT', $row_number, $saved_test_data->getCellValue('OUTPUT_CURRENT', $row_number));
+            $result_sheet->setCellValue('RESULT_CORRECT', $row_number, $saved_test_data->getCellValue('RESULT_CURRENT', $row_number));
+            $result_sheet->setCellValue('DURATION_CORRECT', $row_number, $saved_test_data->getCellValue('DURATION_CURRENT', $row_number));
+            $result_sheet->setCellValue('DIFFS_IN_MESSAGE_FLAG', $row_number, 0);
+            $result_sheet->setCellValue('DIFFS_IN_RESULT_FLAG', $row_number, 0);
+            $result_sheet->setCellValue('DIFFS_IN_OUTPUT_FLAG', $row_number, 0);
             if ($row_data['ERRORS_COUNT'] == 0) {
-                $result->setCellValue('OK_FLAG', $row_number, 1);
+                $result_sheet->setCellValue('OK_FLAG', $row_number, 1);
             }
         }
         
         // Save the result and output a message for the user
-        $result->dataUpdate();
-        $this->setResultDataSheet($result);
-        // Set the result to an empty string, because the action does not return any visible output
-        $this->setResult('');
-        $this->setResultMessage('Changes for ' . $this->getInputDataSheet()->countRows() . ' test step(s) accepted!');
+        $result_sheet->dataUpdate();
         
-        return;
+        $result = TaskResultFactory::createDataResult($task, $result_sheet);
+        $result->setMessage('Changes for ' . $input->countRows() . ' test step(s) accepted!');
+        
+        return $result;
     }
 }
 ?>

@@ -3,6 +3,10 @@ namespace exface\ActionTest\Actions;
 
 use exface\Core\CommonLogic\Contexts\ContextActionTrait;
 use exface\Core\CommonLogic\Constants\Icons;
+use exface\Core\Factories\TaskResultFactory;
+use exface\Core\Interfaces\Tasks\TaskInterface;
+use exface\Core\Interfaces\DataSources\DataTransactionInterface;
+use exface\Core\Interfaces\Tasks\TaskResultInterface;
 
 /**
  * This action switches on the record mode in the ActionTest context
@@ -14,22 +18,31 @@ class RecordingStop extends RecordingStart
 {
     use ContextActionTrait;
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\ActionTest\Actions\RecordingStart::init()
+     */
     protected function init()
     {
         parent::init();
         $this->setIcon(Icons::STOP);
     }
 
-    protected function perform()
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\ActionTest\Actions\RecordingStart::perform()
+     */
+    protected function perform(TaskInterface $task, DataTransactionInterface $transaction) : TaskResultInterface
     {
-        $this->setResult('');
         if ($this->getContext()->isRecording()) {
             $this->getContext()->recordingStop();
-            $this->setResultMessage($this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTOP.STOPPED'));
+            $message = $this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTOP.STOPPED');
         } else {
-            $this->setResultMessage($this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTOP.NOT_RECORDING'));
+            $message = $this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTOP.NOT_RECORDING');
         }
-        return;
+        return TaskResultFactory::createMessageResult($task, $message);
     }
 }
 ?>

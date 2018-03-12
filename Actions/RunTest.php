@@ -9,6 +9,10 @@ use exface\Core\Interfaces\Exceptions\ErrorExceptionInterface;
 use exface\Core\CommonLogic\Constants\Icons;
 use exface\ActionTest\ActionTestApp;
 use exface\Core\CommonLogic\Selectors\ActionSelector;
+use exface\Core\Interfaces\Tasks\TaskInterface;
+use exface\Core\Interfaces\DataSources\DataTransactionInterface;
+use exface\Core\Interfaces\Tasks\TaskResultInterface;
+use exface\Core\Factories\TaskResultFactory;
 
 /**
  * This action runs one or more selected test steps
@@ -31,7 +35,7 @@ class RunTest extends AbstractAction
         $this->setInputRowsMax(null);
     }
 
-    protected function perform()
+    protected function perform(TaskInterface $task, DataTransactionInterface $transaction) : TaskResultInterface
     {
         $total_errors = 0;
         $total_warnings = 0;
@@ -47,10 +51,10 @@ class RunTest extends AbstractAction
             'ACTION_ALIAS',
             'IGNORE_DIFFS'
         );
-        $saved_test_data = $this->getApp()->getTestStepsData($this->getInputDataSheet(), $columns);
+        $saved_test_data = $this->getApp()->getTestStepsData($this->getInputDataSheet($task), $columns);
         
         // Create a result data sheet
-        $result = $this->getWorkbench()->data()->createDataSheet($saved_test_data->getMetaObject());
+        $result_sheet = $this->getWorkbench()->data()->createDataSheet($saved_test_data->getMetaObject());
         // Run a test for each row of the saved data and save the test result to the result data sheet
         foreach ($saved_test_data->getRows() as $row_number => $row_data) {
             $diffs_in_output = 0;
@@ -97,9 +101,9 @@ class RunTest extends AbstractAction
             
             // Mark the test as OK or not
             if ($errors == 0) {
-                $result->setCellValue('OK_FLAG', $row_number, 1);
+                $result_sheet->setCellValue('OK_FLAG', $row_number, 1);
             } else {
-                $result->setCellValue('OK_FLAG', $row_number, 0);
+                $result_sheet->setCellValue('OK_FLAG', $row_number, 0);
             }
             
             $total_errors += $errors;
@@ -108,28 +112,28 @@ class RunTest extends AbstractAction
             // Update the test data with the current result
             // First copy the system fields (like the UID)
             foreach ($saved_test_data->getColumns()->getSystem()->getAll() as $col) {
-                $result->setCellValue($col->getName(), $row_number, $col->getCellValue($row_number));
+                $result_sheet->setCellValue($col->getName(), $row_number, $col->getCellValue($row_number));
             }
             // Then the actual data
-            $result->setCellValue('MESSAGE_CURRENT', $row_number, $new_message);
-            $result->setCellValue('OUTPUT_CURRENT', $row_number, $new_output);
-            $result->setCellValue('RESULT_CURRENT', $row_number, $new_result_string);
-            $result->setCellValue('DIFFS_IN_MESSAGE_FLAG', $row_number, $diffs_in_message);
-            $result->setCellValue('DIFFS_IN_OUTPUT_FLAG', $row_number, $diffs_in_output);
-            $result->setCellValue('DIFFS_IN_RESULT_FLAG', $row_number, $diffs_in_result);
-            $result->setCellValue('ERRORS_COUNT', $row_number, count($error_messages));
-            $result->setCellValue('ERROR_TEXT', $row_number, implode("\n", $error_messages));
+            $result_sheet->setCellValue('MESSAGE_CURRENT', $row_number, $new_message);
+            $result_sheet->setCellValue('OUTPUT_CURRENT', $row_number, $new_output);
+            $result_sheet->setCellValue('RESULT_CURRENT', $row_number, $new_result_string);
+            $result_sheet->setCellValue('DIFFS_IN_MESSAGE_FLAG', $row_number, $diffs_in_message);
+            $result_sheet->setCellValue('DIFFS_IN_OUTPUT_FLAG', $row_number, $diffs_in_output);
+            $result_sheet->setCellValue('DIFFS_IN_RESULT_FLAG', $row_number, $diffs_in_result);
+            $result_sheet->setCellValue('ERRORS_COUNT', $row_number, count($error_messages));
+            $result_sheet->setCellValue('ERROR_TEXT', $row_number, implode("\n", $error_messages));
             
             // Add performance monitor data
             $duration = $this->getApp()->getProfiler()->getActionDuration($action);
-            $result->setCellValue('DURATION_CURRENT', $row_number, $duration);
+            $result_sheet->setCellValue('DURATION_CURRENT', $row_number, $duration);
         }
         
         // Save the result and output a message for the user
-        $result->dataUpdate();
-        $this->setResultDataSheet($result);
-        $this->setResult('');
-        $this->setResultMessage($saved_test_data->countRows() . ' test(s) run: ' . $total_errors . ' errors, ' . $total_warnings . ' warnings');
+        $result_sheet->dataUpdate();
+        
+        $result = TaskResultFactory::createDataResult($task, $result_sheet);
+        $result->setMessage($saved_test_data->countRows() . ' test(s) run: ' . $total_errors . ' errors, ' . $total_warnings . ' warnings');
         
         return;
     }

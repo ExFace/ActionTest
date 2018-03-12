@@ -106,6 +106,7 @@ class ActionTestContext extends AbstractContext
 
     public function recordAction(ActionEvent $event)
     {
+        // FIXME #api-v4 make compatible with the new API
         
         $action = $event->getAction();
         

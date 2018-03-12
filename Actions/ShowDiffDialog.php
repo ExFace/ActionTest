@@ -6,6 +6,9 @@ use exface\Core\Widgets\Dialog;
 use exface\Core\Widgets\AbstractWidget;
 use exface\Core\Factories\WidgetFactory;
 use exface\Core\CommonLogic\Constants\Icons;
+use exface\Core\Interfaces\Tasks\TaskInterface;
+use exface\Core\Interfaces\DataSources\DataTransactionInterface;
+use exface\Core\Interfaces\Tasks\TaskResultInterface;
 
 /**
  * This action shows a dialog comparing the current test result to the reference one
@@ -26,11 +29,11 @@ class ShowDiffDialog extends ShowDialog
         $this->setPrefillWithFilterContext(false);
     }
 
-    protected function perform()
+    protected function perform(TaskInterface $task, DataTransactionInterface $transaction) : TaskResultInterface
     {
         // Fetch the currently saved test data
         $saved_test_data = $this->getWorkbench()->data()->createDataSheet($this->getWorkbench()->model()->getObject('EXFACE.ACTIONTEST.TEST_STEP'));
-        $saved_test_data->addFilterFromString($saved_test_data->getMetaObject()->getUidAttributeAlias(), $this->getInputDataSheet()->getUidColumn()->getValues()[0], EXF_COMPARATOR_IN);
+        $saved_test_data->addFilterFromString($saved_test_data->getMetaObject()->getUidAttributeAlias(), $this->getInputDataSheet($task)->getUidColumn()->getValues()[0], EXF_COMPARATOR_IN);
         $saved_test_data->getColumns()->addFromExpression('MESSAGE_CORRECT');
         $saved_test_data->getColumns()->addFromExpression('MESSAGE_CURRENT');
         $saved_test_data->getColumns()->addFromExpression('OUTPUT_CORRECT');
@@ -43,7 +46,7 @@ class ShowDiffDialog extends ShowDialog
         
         $this->getDialogWidget()->prefill($saved_test_data);
         
-        return parent::perform();
+        return parent::perform($task, $transaction);
     }
 
     protected function enhanceDialogWidget(Dialog $dialog)

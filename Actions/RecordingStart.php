@@ -6,6 +6,10 @@ use exface\Core\CommonLogic\Contexts\ContextActionTrait;
 use exface\Core\CommonLogic\Constants\Icons;
 use exface\Core\Interfaces\Actions\iModifyContext;
 use exface\Core\Interfaces\Contexts\ContextManagerInterface;
+use exface\Core\Interfaces\Tasks\TaskInterface;
+use exface\Core\Interfaces\DataSources\DataTransactionInterface;
+use exface\Core\Interfaces\Tasks\TaskResultInterface;
+use exface\Core\Factories\TaskResultFactory;
 
 /**
  * This action switches on the record mode in the ActionTest context
@@ -17,6 +21,11 @@ class RecordingStart extends AbstractAction implements iModifyContext
 {
     use ContextActionTrait;
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\CommonLogic\AbstractAction::init()
+     */
     protected function init()
     {
         parent::init();
@@ -25,16 +34,20 @@ class RecordingStart extends AbstractAction implements iModifyContext
         $this->setContextAlias('exface.ActionTest.ActionTestContext');
     }
 
-    protected function perform()
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\CommonLogic\AbstractAction::perform()
+     */
+    protected function perform(TaskInterface $task, DataTransactionInterface $transaction) : TaskResultInterface
     {
-        $this->setResult('');
         if ($this->getContext()->isRecording()) {
-            $this->setResultMessage($this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTART.ALREADY_RECORDING'));
+            $message = $this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTART.ALREADY_RECORDING');
         } else {
             $this->getContext()->recordingStart();
-            $this->setResultMessage($this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTART.STARTED'));
+            $message = $this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTART.STARTED');
         }
-        return;
+        return TaskResultFactory::createMessageResult($task, $message);
     }
 }
 ?>
