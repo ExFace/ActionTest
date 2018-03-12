@@ -11,8 +11,8 @@ use exface\ActionTest\ActionTestApp;
 use exface\Core\CommonLogic\Selectors\ActionSelector;
 use exface\Core\Interfaces\Tasks\TaskInterface;
 use exface\Core\Interfaces\DataSources\DataTransactionInterface;
-use exface\Core\Interfaces\Tasks\TaskResultInterface;
-use exface\Core\Factories\TaskResultFactory;
+use exface\Core\Interfaces\Tasks\ResultInterface;
+use exface\Core\Factories\ResultFactory;
 
 /**
  * This action runs one or more selected test steps
@@ -35,7 +35,7 @@ class RunTest extends AbstractAction
         $this->setInputRowsMax(null);
     }
 
-    protected function perform(TaskInterface $task, DataTransactionInterface $transaction) : TaskResultInterface
+    protected function perform(TaskInterface $task, DataTransactionInterface $transaction) : ResultInterface
     {
         $total_errors = 0;
         $total_warnings = 0;
@@ -132,7 +132,7 @@ class RunTest extends AbstractAction
         // Save the result and output a message for the user
         $result_sheet->dataUpdate();
         
-        $result = TaskResultFactory::createDataResult($task, $result_sheet);
+        $result = ResultFactory::createDataResult($task, $result_sheet);
         $result->setMessage($saved_test_data->countRows() . ' test(s) run: ' . $total_errors . ' errors, ' . $total_warnings . ' warnings');
         
         return;

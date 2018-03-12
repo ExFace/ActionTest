@@ -6,8 +6,8 @@ use exface\Core\Interfaces\Actions\iModifyData;
 use exface\Core\CommonLogic\Constants\Icons;
 use exface\Core\Interfaces\Tasks\TaskInterface;
 use exface\Core\Interfaces\DataSources\DataTransactionInterface;
-use exface\Core\Interfaces\Tasks\TaskResultInterface;
-use exface\Core\Factories\TaskResultFactory;
+use exface\Core\Interfaces\Tasks\ResultInterface;
+use exface\Core\Factories\ResultFactory;
 
 /**
  * This action accepts the current results of one or more actions as the new correct results
@@ -25,7 +25,7 @@ class AcceptChanges extends AbstractAction implements iModifyData
         $this->setInputRowsMax(null);
     }
 
-    protected function perform(TaskInterface $task, DataTransactionInterface $transaction) : TaskResultInterface
+    protected function perform(TaskInterface $task, DataTransactionInterface $transaction) : ResultInterface
     {
         $input = $this->getInputDataSheet($task);
         
@@ -64,7 +64,7 @@ class AcceptChanges extends AbstractAction implements iModifyData
         // Save the result and output a message for the user
         $result_sheet->dataUpdate();
         
-        $result = TaskResultFactory::createDataResult($task, $result_sheet);
+        $result = ResultFactory::createDataResult($task, $result_sheet);
         $result->setMessage('Changes for ' . $input->countRows() . ' test step(s) accepted!');
         
         return $result;

@@ -3,10 +3,10 @@ namespace exface\ActionTest\Actions;
 
 use exface\Core\CommonLogic\Contexts\ContextActionTrait;
 use exface\Core\CommonLogic\Constants\Icons;
-use exface\Core\Factories\TaskResultFactory;
+use exface\Core\Factories\ResultFactory;
 use exface\Core\Interfaces\Tasks\TaskInterface;
 use exface\Core\Interfaces\DataSources\DataTransactionInterface;
-use exface\Core\Interfaces\Tasks\TaskResultInterface;
+use exface\Core\Interfaces\Tasks\ResultInterface;
 
 /**
  * This action switches on the record mode in the ActionTest context
@@ -34,7 +34,7 @@ class RecordingStop extends RecordingStart
      * {@inheritDoc}
      * @see \exface\ActionTest\Actions\RecordingStart::perform()
      */
-    protected function perform(TaskInterface $task, DataTransactionInterface $transaction) : TaskResultInterface
+    protected function perform(TaskInterface $task, DataTransactionInterface $transaction) : ResultInterface
     {
         if ($this->getContext()->isRecording()) {
             $this->getContext()->recordingStop();
@@ -42,7 +42,7 @@ class RecordingStop extends RecordingStart
         } else {
             $message = $this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTOP.NOT_RECORDING');
         }
-        return TaskResultFactory::createMessageResult($task, $message);
+        return ResultFactory::createMessageResult($task, $message);
     }
 }
 ?>
