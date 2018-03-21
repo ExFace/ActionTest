@@ -41,10 +41,10 @@ class RecordingStart extends AbstractAction implements iModifyContext
      */
     protected function perform(TaskInterface $task, DataTransactionInterface $transaction) : ResultInterface
     {
-        if ($this->getContext()->isRecording()) {
+        if ($this->getContext($task)->isRecording()) {
             $message = $this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTART.ALREADY_RECORDING');
         } else {
-            $this->getContext()->recordingStart();
+            $this->getContext($task)->recordingStart();
             $message = $this->getApp()->getTranslator()->translate('ACTION.RECORDINGSTART.STARTED');
         }
         return ResultFactory::createMessageResult($task, $message);
