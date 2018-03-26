@@ -8,10 +8,10 @@ use exface\Core\CommonLogic\Constants\Colors;
 use exface\Core\CommonLogic\Constants\Icons;
 use exface\Core\Factories\WidgetFactory;
 use exface\Core\Widgets\Container;
-use exface\Core\Interfaces\NameResolverInterface;
 use exface\Core\Exceptions\Contexts\ContextAccessDeniedError;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\CommonLogic\DataSheets\DataSorter;
+use exface\Core\Interfaces\Selectors\ContextSelectorInterface;
 
 /**
  * This context shows a menu for test recording in the ContextBar
@@ -28,9 +28,9 @@ class ActionTestContext extends AbstractContext
 
     private $recorded_steps_counter = 0;
     
-    public function __construct(NameResolverInterface $name_resolver){
-        parent::__construct($name_resolver);
-        if ($name_resolver->getWorkbench()->context()->getScopeUser()->getUserCurrent()->isUserAnonymous()){
+    public function __construct(ContextSelectorInterface $selector){
+        parent::__construct($selector);
+        if ($selector->getWorkbench()->context()->getScopeUser()->getUserCurrent()->isUserAnonymous()){
             throw new ContextAccessDeniedError($this, 'The ActionTest context cannot be used for anonymous users!');
         }
     }
