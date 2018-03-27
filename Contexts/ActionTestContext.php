@@ -12,6 +12,8 @@ use exface\Core\Exceptions\Contexts\ContextAccessDeniedError;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\CommonLogic\DataSheets\DataSorter;
 use exface\Core\Interfaces\Selectors\ContextSelectorInterface;
+use exface\Core\Factories\UiPageFactory;
+use exface\Core\Factories\SelectorFactory;
 
 /**
  * This context shows a menu for test recording in the ContextBar
@@ -121,13 +123,14 @@ class ActionTestContext extends AbstractContext
             // FIXME #events add task to action event and get the page from the task
             // $page_alias = $this->getWorkbench()->ui()->getPageCurrent()->getAliasWithNamespace();
         }
+        $page = UiPageFactory::create(SelectorFactory::createPageSelector($this->getWorkbench(), $page_alias));
         
         // Create a test case if needed
         if (! $this->getRecordingTestCaseId()) {
             $test_case_data = $this->getWorkbench()->data()->createDataSheet($this->getWorkbench()->model()->getObject('EXFACE.ACTIONTEST.TEST_CASE'));
-            $test_case_data->setCellValue('NAME', 0, $this->createTestCaseName($this->getWorkbench()->ui()->getPage($page_alias)->getName()));
+            $test_case_data->setCellValue('NAME', 0, $this->createTestCaseName($page->getName()));
             $test_case_data->setCellValue('START_PAGE_ALIAS', 0, $page_alias);
-            $test_case_data->setCellValue('START_PAGE_NAME', 0, $this->getWorkbench()->ui()->getPage($page_alias)->getName());
+            $test_case_data->setCellValue('START_PAGE_NAME', 0, $page->getName());
             $test_case_data->setCellValue('START_OBJECT', 0, $action->getInputDataSheet()->getMetaObject()->getId());
             $test_case_data->dataCreate();
             $this->setRecordingTestCaseId($test_case_data->getCellValue($test_case_data->getMetaObject()->getUidAttributeAlias(), 0));
@@ -158,7 +161,7 @@ class ActionTestContext extends AbstractContext
         
         // Add page attributes
         $data_sheet->setCellValue('PAGE_ALIAS', 0, $page_alias);
-        $data_sheet->setCellValue('PAGE_NAME', 0, $this->getWorkbench()->ui()->getPage($page_alias)->getName());
+        $data_sheet->setCellValue('PAGE_NAME', 0, $page->getName());
         $data_sheet->setCellValue('OBJECT', 0, $action->getInputDataSheet()->getMetaObject()->getId());
         $data_sheet->setCellValue('TEMPLATE_ALIAS', 0, $action->getTemplateAlias());
         
