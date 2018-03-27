@@ -118,7 +118,8 @@ class ActionTestContext extends AbstractContext
             $page_alias = $action->getWidgetDefinedIn()->getPage()->getAliasWithNamespace();
         }
         if (is_null($page_alias)){
-            $page_alias = $this->getWorkbench()->ui()->getPageCurrent()->getAliasWithNamespace();
+            // FIXME #events add task to action event and get the page from the task
+            // $page_alias = $this->getWorkbench()->ui()->getPageCurrent()->getAliasWithNamespace();
         }
         
         // Create a test case if needed
