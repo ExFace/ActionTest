@@ -74,7 +74,7 @@
         ],
         "buttons": [
             {
-                "action_alias": "exface.Core.EditObjectDialog",
+                "action_alias": "exface.Core.ShowObjectEditDialog",
                 "action_show_only_editable_attributes": false,
                 "caption": "Edit"
             },
@@ -84,7 +84,7 @@
             },
             {
                 "action": {
-                    "alias": "exface.Core.CreateObjectDialog",
+                    "alias": "exface.Core.ShowObjectCreateDialog",
                     "object_alias": "exface.ActionTest.TEST_CASE_CATEGORIES",
                     "prefill_with_input_data": true
                 },

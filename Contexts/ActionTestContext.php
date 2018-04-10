@@ -306,7 +306,7 @@ class ActionTestContext extends AbstractContext
         
         // Add the EDIT button
         $table->addButton(
-            $table->createButton()->setActionAlias('exface.Core.EditObjectDialog')->setVisibility(EXF_WIDGET_VISIBILITY_OPTIONAL)
+            $table->createButton()->setActionAlias('exface.Core.ShowObjectEditDialog')->setVisibility(EXF_WIDGET_VISIBILITY_OPTIONAL)
         );
         
         // Add the DELETE button
