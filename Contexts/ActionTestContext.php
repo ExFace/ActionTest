@@ -2,7 +2,6 @@
 namespace exface\ActionTest\Contexts;
 
 use exface\Core\CommonLogic\UxonObject;
-use exface\Core\Events\ActionEvent;
 use exface\Core\CommonLogic\Contexts\AbstractContext;
 use exface\Core\CommonLogic\Constants\Colors;
 use exface\Core\CommonLogic\Constants\Icons;
@@ -14,6 +13,7 @@ use exface\Core\CommonLogic\DataSheets\DataSorter;
 use exface\Core\Interfaces\Selectors\ContextSelectorInterface;
 use exface\Core\Factories\UiPageFactory;
 use exface\Core\Factories\SelectorFactory;
+use exface\Core\Events\Action\OnHandleTaskEvent;
 
 /**
  * This context shows a menu for test recording in the ContextBar
@@ -86,7 +86,7 @@ class ActionTestContext extends AbstractContext
             
             // If we are recording, register a callback to record an actions output whenever an action is performed
             if ($this->isRecording()) {
-                $this->getWorkbench()->eventManager()->addListener('#.Action.Perform.After', array(
+                $this->getWorkbench()->eventManager()->addListener(OnHandleTaskEvent::getEventName(), array(
                     $this,
                     'recordAction'
                 ));
@@ -106,7 +106,7 @@ class ActionTestContext extends AbstractContext
         return $this;
     }
 
-    public function recordAction(ActionEvent $event)
+    public function recordAction(OnHandleTaskEvent $event)
     {
         // FIXME #api-v4 make compatible with the new API
         
