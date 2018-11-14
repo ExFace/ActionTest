@@ -13,7 +13,7 @@ use exface\Core\CommonLogic\DataSheets\DataSorter;
 use exface\Core\Interfaces\Selectors\ContextSelectorInterface;
 use exface\Core\Factories\UiPageFactory;
 use exface\Core\Factories\SelectorFactory;
-use exface\Core\Events\Action\OnHandleTaskEvent;
+use exface\Core\Events\Action\OnActionPerformedEvent;
 
 /**
  * This context shows a menu for test recording in the ContextBar
@@ -86,7 +86,7 @@ class ActionTestContext extends AbstractContext
             
             // If we are recording, register a callback to record an actions output whenever an action is performed
             if ($this->isRecording()) {
-                $this->getWorkbench()->eventManager()->addListener(OnHandleTaskEvent::getEventName(), array(
+                $this->getWorkbench()->eventManager()->addListener(OnActionPerformedEvent::getEventName(), array(
                     $this,
                     'recordAction'
                 ));
@@ -106,7 +106,7 @@ class ActionTestContext extends AbstractContext
         return $this;
     }
 
-    public function recordAction(OnHandleTaskEvent $event)
+    public function recordAction(OnActionPerformedEvent $event)
     {
         // FIXME #api-v4 make compatible with the new API
         
