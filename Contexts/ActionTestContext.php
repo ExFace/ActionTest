@@ -14,6 +14,7 @@ use exface\Core\Interfaces\Selectors\ContextSelectorInterface;
 use exface\Core\Factories\UiPageFactory;
 use exface\Core\Factories\SelectorFactory;
 use exface\Core\Events\Action\OnActionPerformedEvent;
+use exface\Core\Factories\DataSheetFactory;
 
 /**
  * This context shows a menu for test recording in the ContextBar
@@ -127,7 +128,7 @@ class ActionTestContext extends AbstractContext
         
         // Create a test case if needed
         if (! $this->getRecordingTestCaseId()) {
-            $test_case_data = $this->getWorkbench()->data()->createDataSheet($this->getWorkbench()->model()->getObject('EXFACE.ACTIONTEST.TEST_CASE'));
+            $test_case_data = DataSheetFactory::createFromObjectIdOrAlias($this->getWorkbench(), 'EXFACE.ACTIONTEST.TEST_CASE');
             $test_case_data->setCellValue('NAME', 0, $this->createTestCaseName($page->getName()));
             $test_case_data->setCellValue('START_PAGE_ALIAS', 0, $page_alias);
             $test_case_data->setCellValue('START_PAGE_NAME', 0, $page->getName());
@@ -137,7 +138,7 @@ class ActionTestContext extends AbstractContext
         }
         
         // Create the test step itself
-        $data_sheet = $this->getWorkbench()->data()->createDataSheet($this->getWorkbench()->model()->getObject('EXFACE.ACTIONTEST.TEST_STEP'));
+        $data_sheet = DataSheetFactory::createFromObjectIdOrAlias($this->getWorkbench(), 'EXFACE.ACTIONTEST.TEST_STEP');
         $data_sheet->setCellValue('SEQUENCE', 0, ($this->getRecordedStepsCounter() + 1));
         $data_sheet->setCellValue('TEST_CASE', 0, $this->getRecordingTestCaseId());
         $data_sheet->setCellValue('ACTION_ALIAS', 0, $action->getAliasWithNamespace());

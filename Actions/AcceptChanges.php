@@ -8,6 +8,7 @@ use exface\Core\Interfaces\Tasks\TaskInterface;
 use exface\Core\Interfaces\DataSources\DataTransactionInterface;
 use exface\Core\Interfaces\Tasks\ResultInterface;
 use exface\Core\Factories\ResultFactory;
+use exface\Core\Factories\DataSheetFactory;
 
 /**
  * This action accepts the current results of one or more actions as the new correct results
@@ -40,7 +41,7 @@ class AcceptChanges extends AbstractAction implements iModifyData
         $saved_test_data = $this->getApp()->getTestStepsData($input, $columns);
         
         // Create a result data sheet
-        $result_sheet = $this->getWorkbench()->data()->createDataSheet($saved_test_data->getMetaObject());
+        $result_sheet = DataSheetFactory::createFromObject($saved_test_data->getMetaObject());
         // Run a test for each row of the saved data and save the test result to the result data sheet
         foreach ($saved_test_data->getRows() as $row_number => $row_data) {
             // Add the correct values from the saved data to the result data sheet

@@ -13,6 +13,7 @@ use exface\Core\Interfaces\Tasks\TaskInterface;
 use exface\Core\Interfaces\DataSources\DataTransactionInterface;
 use exface\Core\Interfaces\Tasks\ResultInterface;
 use exface\Core\Factories\ResultFactory;
+use exface\Core\Factories\DataSheetFactory;
 
 /**
  * This action runs one or more selected test steps
@@ -54,7 +55,7 @@ class RunTest extends AbstractAction
         $saved_test_data = $this->getApp()->getTestStepsData($this->getInputDataSheet($task), $columns);
         
         // Create a result data sheet
-        $result_sheet = $this->getWorkbench()->data()->createDataSheet($saved_test_data->getMetaObject());
+        $result_sheet = DataSheetFactory::createFromObject($saved_test_data->getMetaObject());
         // Run a test for each row of the saved data and save the test result to the result data sheet
         foreach ($saved_test_data->getRows() as $row_number => $row_data) {
             $diffs_in_output = 0;
